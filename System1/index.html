@@ -1751,39 +1751,39 @@ function buildQueries(profile, strategy) {
   const mr = profile.minThreshold;
 
   if (strategy === 'similar' && g.length) {
-    queries.push({ genres: g.slice(0,2).join(','), minAggregateRating: mr,
+    queries.push({ genres: g.slice(0,2).join(','), minAggregateRating: mr, minVoteCount: 5000,
       startYear: profile.yearRange[0], endYear: profile.yearRange[1],
       sortBy: 'SORT_BY_USER_RATING', sortOrder: 'DESC' });
   } else if (strategy === 'explore' && g.length) {
-    // Adjacent genre, same era
     const adj = adjacentGenres[g[0]] || 'Drama';
-    queries.push({ genres: adj, minAggregateRating: mr,
+    queries.push({ genres: adj, minAggregateRating: mr, minVoteCount: 5000,
       startYear: profile.yearRange[0], endYear: profile.yearRange[1],
       sortBy: 'SORT_BY_POPULARITY', sortOrder: 'DESC' });
-    // Same genre, earlier era
     if (profile.yearRange[0] > 1970) {
       queries.push({ genres: g[0], endYear: profile.yearRange[0] - 1,
-        minAggregateRating: Math.max(mr, 7.0),
+        minAggregateRating: Math.max(mr, 7.0), minVoteCount: 10000,
         sortBy: 'SORT_BY_USER_RATING', sortOrder: 'DESC' });
     }
   } else {
     // Balanced (default)
     if (g.length >= 2) {
-      queries.push({ genres: g.slice(0,2).join(','), minAggregateRating: mr,
+      queries.push({ genres: g.slice(0,2).join(','), minAggregateRating: mr, minVoteCount: 5000,
         sortBy: 'SORT_BY_POPULARITY', sortOrder: 'DESC' });
     }
     if (g.length >= 3) {
-      queries.push({ genres: g[2], minAggregateRating: Math.max(mr, 7.0),
+      queries.push({ genres: g[2], minAggregateRating: Math.max(mr, 7.0), minVoteCount: 5000,
         sortBy: 'SORT_BY_USER_RATING', sortOrder: 'DESC' });
     }
     if (g.length && profile.topDecades.length) {
       const d = profile.topDecades[0];
       queries.push({ genres: g[0], startYear: d, endYear: d + 9,
-        minAggregateRating: mr, sortBy: 'SORT_BY_POPULARITY', sortOrder: 'DESC' });
+        minAggregateRating: mr, minVoteCount: 5000,
+        sortBy: 'SORT_BY_POPULARITY', sortOrder: 'DESC' });
     }
   }
   if (!queries.length) {
-    queries.push({ minAggregateRating: 7.0, sortBy: 'SORT_BY_POPULARITY', sortOrder: 'DESC' });
+    queries.push({ minAggregateRating: 7.0, minVoteCount: 10000,
+      sortBy: 'SORT_BY_POPULARITY', sortOrder: 'DESC' });
   }
   return queries;
 }
@@ -1795,15 +1795,17 @@ function scoreTitle(title, profile) {
   const pg = new Set(profile.topGenres);
   if (pg.size) score += ([...tg].filter(g => pg.has(g)).length / pg.size) * 0.4;
   const r = title.rating?.aggregateRating || 0;
-  if (r) score += Math.min(r / 10, 1) * 0.25;
+  if (r) score += Math.min(r / 10, 1) * 0.2;
   const y = title.startYear || 0;
   if (y && profile.yearRange) {
     const mid = (profile.yearRange[0] + profile.yearRange[1]) / 2;
     score += Math.max(0, 1 - Math.abs(y - mid) / 50) * 0.15;
   }
   const votes = title.rating?.voteCount || 0;
-  if (votes > 50000) score += 0.1;
-  else if (votes > 10000) score += 0.05;
+  if (votes > 100000) score += 0.15;
+  else if (votes > 50000) score += 0.12;
+  else if (votes > 10000) score += 0.08;
+  else if (votes > 1000) score += 0.03;
   score += 0.1 * Math.random(); // mild shuffle for variety
   return score;
 }

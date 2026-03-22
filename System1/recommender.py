@@ -193,6 +193,7 @@ def _build_api_params(profile: PreferenceProfile, strategy: str = "balanced") ->
                 "startYear": profile.preferred_year_range[0],
                 "endYear": profile.preferred_year_range[1],
                 "minAggregateRating": min_rating,
+                "minVoteCount": 5000,
                 "sortBy": "SORT_BY_USER_RATING",
                 "sortOrder": "DESC",
             })
@@ -205,6 +206,7 @@ def _build_api_params(profile: PreferenceProfile, strategy: str = "balanced") ->
                 "genres": genres[0],
                 "endYear": profile.preferred_year_range[0] - 1,
                 "minAggregateRating": max(min_rating, 7.0),
+                "minVoteCount": 10000,
                 "sortBy": "SORT_BY_USER_RATING",
                 "sortOrder": "DESC",
             })
@@ -225,6 +227,7 @@ def _build_api_params(profile: PreferenceProfile, strategy: str = "balanced") ->
                     "startYear": profile.preferred_year_range[0],
                     "endYear": profile.preferred_year_range[1],
                     "minAggregateRating": min_rating,
+                    "minVoteCount": 5000,
                     "sortBy": "SORT_BY_POPULARITY",
                     "sortOrder": "DESC",
                 })
@@ -235,6 +238,7 @@ def _build_api_params(profile: PreferenceProfile, strategy: str = "balanced") ->
             queries.append({
                 "genres": ",".join(genres[:2]),
                 "minAggregateRating": min_rating,
+                "minVoteCount": 5000,
                 "sortBy": "SORT_BY_POPULARITY",
                 "sortOrder": "DESC",
             })
@@ -243,6 +247,7 @@ def _build_api_params(profile: PreferenceProfile, strategy: str = "balanced") ->
             queries.append({
                 "genres": genres[2],
                 "minAggregateRating": max(min_rating, 7.0),
+                "minVoteCount": 5000,
                 "sortBy": "SORT_BY_USER_RATING",
                 "sortOrder": "DESC",
             })
@@ -254,6 +259,7 @@ def _build_api_params(profile: PreferenceProfile, strategy: str = "balanced") ->
                 "startYear": decade,
                 "endYear": decade + 9,
                 "minAggregateRating": min_rating,
+                "minVoteCount": 5000,
                 "sortBy": "SORT_BY_POPULARITY",
                 "sortOrder": "DESC",
             })
@@ -262,6 +268,7 @@ def _build_api_params(profile: PreferenceProfile, strategy: str = "balanced") ->
     if not queries:
         queries.append({
             "minAggregateRating": 7.0,
+            "minVoteCount": 10000,
             "sortBy": "SORT_BY_POPULARITY",
             "sortOrder": "DESC",
         })
@@ -291,10 +298,10 @@ def _score_title(title: dict, profile: PreferenceProfile, owned_ids: set) -> flo
         overlap = len(title_genres & profile_genres) / len(profile_genres)
         score += overlap * 0.4
 
-    # IMDb rating bonus (0 - 0.25)
+    # IMDb rating bonus (0 - 0.2) — reduced from 0.25
     rating = title.get("rating", {}).get("aggregateRating", 0) if isinstance(title.get("rating"), dict) else 0
     if rating:
-        score += min(rating / 10.0, 1.0) * 0.25
+        score += min(rating / 10.0, 1.0) * 0.2
 
     # Year proximity (0 - 0.15)
     year = title.get("startYear", 0)
@@ -309,12 +316,17 @@ def _score_title(title: dict, profile: PreferenceProfile, owned_ids: set) -> flo
     if title.get("type", "").lower().replace(" ", "") == profile.top_type.lower().replace(" ", ""):
         score += 0.1
 
-    # Vote count popularity bonus (0 - 0.1)
+    # Vote count credibility bonus (0 - 0.15) — increased from 0.1
     votes = title.get("rating", {}).get("voteCount", 0) if isinstance(title.get("rating"), dict) else 0
-    if votes > 50000:
-        score += 0.1
+    if votes > 100000:
+        score += 0.15
+    elif votes > 50000:
+        score += 0.12
     elif votes > 10000:
-        score += 0.05
+        score += 0.08
+    elif votes > 1000:
+        score += 0.03
+    # else: no bonus for <1000 votes
 
     return round(score, 3)
 
