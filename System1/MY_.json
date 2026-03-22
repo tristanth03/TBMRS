@@ -1,0 +1,1101 @@
+{
+    "titles": [
+        {
+            "id": "tt33381401",
+            "type": "movie",
+            "primaryTitle": "The Love That Remains",
+            "originalTitle": "\u00c1stin sem eftir er",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BZTg3ZWYxMmUtZTU0My00Y2U5LWE4ZGMtZmZlM2E4ZTcyODc2XkEyXkFqcGc@._V1_.jpg",
+                "width": 1944,
+                "height": 2880
+            },
+            "startYear": 2025,
+            "runtimeSeconds": 6540,
+            "genres": [
+                "Comedy",
+                "Drama",
+                "Family"
+            ],
+            "rating": {
+                "aggregateRating": 6.9,
+                "voteCount": 1129
+            },
+            "plot": "Captures a year in the life of a family as the parents navigate their separation. Through intimate vignettes and strange occurrences, the film explores the complexities of family, love, and the impact of shared memories."
+        },
+        {
+            "id": "tt8580274",
+            "type": "movie",
+            "primaryTitle": "Eurovision Song Contest: The Story of Fire Saga",
+            "originalTitle": "Eurovision Song Contest: The Story of Fire Saga",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BMTFhODlhMGMtNTA4Yy00MjNhLWFiNjMtMTFkMjRkN2FmMjAyXkEyXkFqcGc@._V1_.jpg",
+                "width": 1013,
+                "height": 1500
+            },
+            "startYear": 2020,
+            "runtimeSeconds": 7380,
+            "genres": [
+                "Comedy",
+                "Music"
+            ],
+            "rating": {
+                "aggregateRating": 6.5,
+                "voteCount": 109013
+            },
+            "plot": "When aspiring musicians Lars and Sigrit are given the opportunity to represent their country at the world's biggest song competition, they finally have a chance to prove that any dream worth having is a dream worth fighting for."
+        },
+        {
+            "id": "tt9812474",
+            "type": "movie",
+            "primaryTitle": "Lamb",
+            "originalTitle": "D\u00fdri\u00f0",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BOWM1ZjViN2MtNGVjMS00MTgxLWJjZTQtMmI1YWJiZTgxZGMwXkEyXkFqcGc@._V1_.jpg",
+                "width": 896,
+                "height": 1280
+            },
+            "startYear": 2021,
+            "runtimeSeconds": 6360,
+            "genres": [
+                "Drama",
+                "Fantasy",
+                "Horror"
+            ],
+            "rating": {
+                "aggregateRating": 6.3,
+                "voteCount": 44351
+            },
+            "plot": "A childless couple discovers a mysterious newborn on their farm in Iceland."
+        },
+        {
+            "id": "tt23468836",
+            "type": "movie",
+            "primaryTitle": "Touch",
+            "originalTitle": "Snerting",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BYzMyOTg3ODAtMWEzNy00ZTE0LWI1Y2MtYzAwY2UwMWRjOTkxXkEyXkFqcGc@._V1_.jpg",
+                "width": 1080,
+                "height": 1600
+            },
+            "startYear": 2024,
+            "runtimeSeconds": 7260,
+            "genres": [
+                "Drama",
+                "Romance"
+            ],
+            "rating": {
+                "aggregateRating": 7.4,
+                "voteCount": 7144
+            },
+            "plot": "A romantic and thrilling story that spans several decades and continents; Touch follows one man's emotional journey to find his first love who disappeared 50 years ago, before his time runs out."
+        },
+        {
+            "id": "tt19623228",
+            "type": "movie",
+            "primaryTitle": "Godland",
+            "originalTitle": "Vanskabte land",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BYjJkZjhiZjUtYjVlNy00Zjk1LWE0YWUtNDdiMmQ3MzNjMzkwXkEyXkFqcGc@._V1_.jpg",
+                "width": 1080,
+                "height": 1600
+            },
+            "startYear": 2022,
+            "runtimeSeconds": 8580,
+            "genres": [
+                "Drama"
+            ],
+            "rating": {
+                "aggregateRating": 7.1,
+                "voteCount": 9563
+            },
+            "plot": "At the end of the 19th century, a young Danish priest is sent to a remote part of Iceland. The deeper he travels into the Icelandic landscape, the more he loses a sense of his own reality, his mission and his sense of duty."
+        },
+        {
+            "id": "tt31937069",
+            "type": "movie",
+            "primaryTitle": "The Day Iceland Stood Still",
+            "originalTitle": "The Day Iceland Stood Still",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BNTUwYjkwODEtYTgxMy00NmFkLTgwNGEtODk3YTE2MzM4MDJmXkEyXkFqcGc@._V1_.jpg",
+                "width": 828,
+                "height": 1280
+            },
+            "startYear": 2023,
+            "runtimeSeconds": 4200,
+            "genres": [
+                "Documentary"
+            ],
+            "rating": {
+                "aggregateRating": 7.8,
+                "voteCount": 232
+            },
+            "plot": "Oct. 24, 1975, Iceland: 90% of women just took the day off, and men scrambled to fulfill their duties, sometimes comically so. A gleeful, amazing tale of the feminist collective, \"The Red Stockings\", and their search for equality."
+        },
+        {
+            "id": "tt4613254",
+            "type": "movie",
+            "primaryTitle": "Heartstone",
+            "originalTitle": "Hjartasteinn",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BZjU3ZWU0YTItNTQyNi00Zjk0LTgyZjQtMWQxOGMyMTY0ODg2XkEyXkFqcGc@._V1_.jpg",
+                "width": 773,
+                "height": 1160
+            },
+            "startYear": 2016,
+            "runtimeSeconds": 7740,
+            "genres": [
+                "Drama",
+                "Romance"
+            ],
+            "rating": {
+                "aggregateRating": 7.4,
+                "voteCount": 6838
+            },
+            "plot": "In a fishing village in Iceland, a boy develops feelings for his best friend as his best friend pursues his affections for a girl."
+        },
+        {
+            "id": "tt0402057",
+            "type": "movie",
+            "primaryTitle": "Beowulf & Grendel",
+            "originalTitle": "Beowulf & Grendel",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BMTZkNGY0YjYtN2NlYS00MzY1LTg0N2MtNzdkN2IzNWJmYTEyXkEyXkFqcGc@._V1_.jpg",
+                "width": 1476,
+                "height": 2175
+            },
+            "startYear": 2005,
+            "runtimeSeconds": 6240,
+            "genres": [
+                "Action",
+                "Adventure",
+                "Drama",
+                "Fantasy"
+            ],
+            "rating": {
+                "aggregateRating": 5.8,
+                "voteCount": 19231
+            },
+            "plot": "In Denmark, during the 6th century, Danish king Hrothgar and his warriors kill a troll whose son, Grendel, vows revenge."
+        },
+        {
+            "id": "tt29497429",
+            "type": "movie",
+            "primaryTitle": "Odd Fish",
+            "originalTitle": "Lj\u00f3sv\u00edkingar",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BNTc4NGVmOTYtZWM1ZS00ZWRlLWE2OWEtOTQ1ZGU3NWE2NzU2XkEyXkFqcGc@._V1_.jpg",
+                "width": 1684,
+                "height": 2382
+            },
+            "startYear": 2024,
+            "runtimeSeconds": 6240,
+            "genres": [
+                "Comedy",
+                "Drama"
+            ],
+            "rating": {
+                "aggregateRating": 6.4,
+                "voteCount": 208
+            },
+            "plot": "When two childhood friends get an unexpected opportunity to keep their fish restaurant open all year round, one of them comes out of the closet as a trans woman, putting a strain on their friendship and they see their lives in a new light."
+        },
+        {
+            "id": "tt2611652",
+            "type": "movie",
+            "primaryTitle": "Virgin Mountain",
+            "originalTitle": "F\u00fasi",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BMjExMDYzNTIxNl5BMl5BanBnXkFtZTgwNzYwNDQyNDE@._V1_.jpg",
+                "width": 4280,
+                "height": 6052
+            },
+            "startYear": 2015,
+            "runtimeSeconds": 5640,
+            "genres": [
+                "Drama",
+                "Romance"
+            ],
+            "rating": {
+                "aggregateRating": 7.4,
+                "voteCount": 10348
+            },
+            "plot": "Fusi, a 43 year old man, still lives with his mother. His daily life is characterized by monotonous routine. The appearance of vibrant Sj\u00f6fn and young neighbour Hera will upset his old bachelor habits."
+        },
+        {
+            "id": "tt0087432",
+            "type": "movie",
+            "primaryTitle": "When the Raven Flies",
+            "originalTitle": "Hrafninn fl\u00fdgur",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BZGQ2MjI0NDYtYjYzYy00MmIxLWI5MjgtNDc3YzY1ZGQ3ZDc0XkEyXkFqcGc@._V1_.jpg",
+                "width": 4803,
+                "height": 6776
+            },
+            "startYear": 1984,
+            "runtimeSeconds": 6540,
+            "genres": [
+                "Action",
+                "Adventure",
+                "Drama"
+            ],
+            "rating": {
+                "aggregateRating": 6.7,
+                "voteCount": 2718
+            },
+            "plot": "An Irish man seeks vengeance against the vikings who killed his parents."
+        },
+        {
+            "id": "tt3296658",
+            "type": "movie",
+            "primaryTitle": "Rams",
+            "originalTitle": "Hr\u00fatar",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BZjQ2MmJmMWEtZTY4Yi00MzViLTg2MWEtMzVlZjg3NTNmNjI5XkEyXkFqcGc@._V1_.jpg",
+                "width": 736,
+                "height": 1070
+            },
+            "startYear": 2015,
+            "runtimeSeconds": 5580,
+            "genres": [
+                "Comedy",
+                "Drama"
+            ],
+            "rating": {
+                "aggregateRating": 7.2,
+                "voteCount": 15717
+            },
+            "plot": "In a remote Icelandic farming valley, two brothers who haven't spoken in 40 years have to come together in order to save what's dearest to them - their sheep."
+        },
+        {
+            "id": "tt0095346",
+            "type": "movie",
+            "primaryTitle": "Shadow of the Raven",
+            "originalTitle": "\u00cd skugga hrafnsins",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BZGJhYWUyZWQtZmJjZi00NWRjLWI3ZmMtM2YxNGI4YTNjMWM4XkEyXkFqcGc@._V1_.jpg",
+                "width": 642,
+                "height": 1000
+            },
+            "startYear": 1988,
+            "runtimeSeconds": 7440,
+            "genres": [
+                "Adventure",
+                "Drama"
+            ],
+            "rating": {
+                "aggregateRating": 6.4,
+                "voteCount": 930
+            },
+            "plot": "Trausti returns to Iceland just in time to be entangled in a family feud over a stranded whale-cadaver. His mother (the family head) is mortally wounded and Grim kills Erikur; the other clan leader. Isold, daughter of Erikur now takes his place. Isold and Trausti are attracted to each other, but Isold was promised to Hjoerleifur - the son of the Bishop (of Iceland) and his powerful wife. However, Isold has a plan..."
+        },
+        {
+            "id": "tt0142964",
+            "type": "movie",
+            "primaryTitle": "Wildside",
+            "originalTitle": "Vildspor",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BMTU4NjM4YTEtNzhhZS00NjBlLTkwZmQtMmRlZWNhZGQ5NjZmXkEyXkFqcGc@._V1_.jpg",
+                "width": 500,
+                "height": 675
+            },
+            "startYear": 1998,
+            "runtimeSeconds": 5700,
+            "genres": [
+                "Drama"
+            ],
+            "rating": {
+                "aggregateRating": 6.4,
+                "voteCount": 812
+            },
+            "plot": "Charming desperado Ossy, carryng a deadly secret, tracks down his childhood pal Jimmy in Iceland. But Jimmy, now with a family and a regular job, will do anything to hide his past."
+        },
+        {
+            "id": "tt13882736",
+            "type": "movie",
+            "primaryTitle": "Cop Secret",
+            "originalTitle": "Cop Secret",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BMzBjNGFmZWItMTI5MC00MDU0LTk1MDEtMzcyOGU3Nzc1Y2NkXkEyXkFqcGc@._V1_.jpg",
+                "width": 4800,
+                "height": 7200
+            },
+            "startYear": 2021,
+            "runtimeSeconds": 5880,
+            "genres": [
+                "Action",
+                "Comedy"
+            ],
+            "rating": {
+                "aggregateRating": 5.9,
+                "voteCount": 1422
+            },
+            "plot": "Iceland's toughest cop will stop at nothing to solve a string of violent bank robberies. But when he is forced to take on a new partner, the pressures of solving the case prove too much for the tough-as-nails renegade."
+        },
+        {
+            "id": "tt39635425",
+            "type": "movie",
+            "primaryTitle": "Undir \u00cdsnum",
+            "originalTitle": "Undir \u00cdsnum",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BZDcxYjE3MDMtYjI3YS00ZWRiLWEwZDAtYTIxMWFmY2UyYjk0XkEyXkFqcGc@._V1_.jpg",
+                "width": 3508,
+                "height": 4961
+            },
+            "startYear": 2026,
+            "genres": [
+                "Action",
+                "Adventure",
+                "Sci-Fi"
+            ],
+            "rating": {
+                "aggregateRating": 6.3,
+                "voteCount": 32
+            },
+            "plot": "A group of con artists infiltrate a secret operation to recover a valuable diamond hidden in an abandoned Soviet mine in Antarctica, only to discover the mission is far more dangerous than they anticipated."
+        },
+        {
+            "id": "tt31272500",
+            "type": "movie",
+            "primaryTitle": "The Fires",
+            "originalTitle": "The Fires",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BMmFhZjFkYTAtNDY2YS00YmE5LWIxNGEtYjVlYTVmNzlhNTRmXkEyXkFqcGc@._V1_.jpg",
+                "width": 4075,
+                "height": 6024
+            },
+            "startYear": 2025,
+            "runtimeSeconds": 6300,
+            "genres": [
+                "Thriller"
+            ],
+            "rating": {
+                "aggregateRating": 6.7,
+                "voteCount": 109
+            },
+            "plot": "Anna Arnard\u00f3ttir, Iceland's top volcanologist, faces two disasters at once: a volcanic eruption that threatens the safety of the capital city and a love affair that could destroy her marriage."
+        },
+        {
+            "id": "tt7279188",
+            "type": "movie",
+            "primaryTitle": "Woman at War",
+            "originalTitle": "Kona fer \u00ed str\u00ed\u00f0",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BYjQzODFiNmYtNjYzOC00ZGVlLTlhOTEtYTkzMTA0NDVjMjE3XkEyXkFqcGc@._V1_.jpg",
+                "width": 2764,
+                "height": 4096
+            },
+            "startYear": 2018,
+            "runtimeSeconds": 6060,
+            "genres": [
+                "Adventure",
+                "Comedy",
+                "Drama",
+                "Thriller"
+            ],
+            "rating": {
+                "aggregateRating": 7.4,
+                "voteCount": 12005
+            },
+            "plot": "Halla becomes a determined environmental activist, but this threatens a long-held hope of hers."
+        },
+        {
+            "id": "tt27476906",
+            "type": "movie",
+            "primaryTitle": "When the Light Breaks",
+            "originalTitle": "Lj\u00f3sbrot",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BYTA0MTA5NWItYmI2Ny00MWU1LWIyZGQtYmI5NmZlMGEyODM3XkEyXkFqcGc@._V1_.jpg",
+                "width": 1370,
+                "height": 1866
+            },
+            "startYear": 2024,
+            "runtimeSeconds": 4920,
+            "genres": [
+                "Drama"
+            ],
+            "rating": {
+                "aggregateRating": 6.6,
+                "voteCount": 1643
+            },
+            "plot": "Una grapples with grief while harboring a secret, unable to fully express her emotions, as she navigates challenging events swirling around her."
+        },
+        {
+            "id": "tt15485390",
+            "type": "movie",
+            "primaryTitle": "Operation Napoleon",
+            "originalTitle": "Nap\u00f3leonsskj\u00f6lin",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BNTY2NGFmOWEtOGYyNy00NjNhLWJkOTEtNDk2ZmNkZDUzOWNlXkEyXkFqcGc@._V1_.jpg",
+                "width": 2701,
+                "height": 4000
+            },
+            "startYear": 2023,
+            "runtimeSeconds": 6120,
+            "genres": [
+                "Action",
+                "Adventure",
+                "Thriller"
+            ],
+            "rating": {
+                "aggregateRating": 6.1,
+                "voteCount": 4101
+            },
+            "plot": "A lawyer is sucked into an international conspiracy after being accused of a murder she didn't commit. Her only chance of survival lies in uncovering the secret of an old German WWII airplane, discovered on Iceland's largest glacier."
+        },
+        {
+            "id": "tt13210228",
+            "type": "movie",
+            "primaryTitle": "Backyard Village",
+            "originalTitle": "\u00deorpi\u00f0 \u00ed bakgar\u00f0inum",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BZjgzMmNlYjgtYzgxNi00ZGU4LTkwOGYtYzFhZmEwMGE4NzhkXkEyXkFqcGc@._V1_.jpg",
+                "width": 4050,
+                "height": 6000
+            },
+            "startYear": 2021,
+            "runtimeSeconds": 5520,
+            "genres": [
+                "Drama"
+            ],
+            "rating": {
+                "aggregateRating": 6.5,
+                "voteCount": 164
+            },
+            "plot": "Unable to face the mother who left her at a young age, a woman takes shelter in a small guesthouse in a village outside Reykjavik. There, she befriends Mark, a British tourist who's dealing with his own tragedy."
+        },
+        {
+            "id": "tt0469754",
+            "type": "movie",
+            "primaryTitle": "The Boss of It All",
+            "originalTitle": "Direkt\u00f8ren for det hele",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BMjAzNjM0NzM1MV5BMl5BanBnXkFtZTcwMDE5Mzg0MQ@@._V1_.jpg",
+                "width": 450,
+                "height": 667
+            },
+            "startYear": 2006,
+            "runtimeSeconds": 5940,
+            "genres": [
+                "Comedy"
+            ],
+            "rating": {
+                "aggregateRating": 6.6,
+                "voteCount": 13375
+            },
+            "plot": "An IT company hires an actor to serve as the company's president in order to help the business get sold to a cranky Icelander."
+        },
+        {
+            "id": "tt0441002",
+            "type": "movie",
+            "primaryTitle": "D\u00eds",
+            "originalTitle": "D\u00eds",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BMzY1ZDEzMzctYWRhMC00YzhlLWExNGEtN2E1NzU3ODVhYjEyXkEyXkFqcGc@._V1_.jpg",
+                "width": 2340,
+                "height": 3320
+            },
+            "startYear": 2004,
+            "runtimeSeconds": 4920,
+            "genres": [
+                "Comedy",
+                "Romance"
+            ],
+            "rating": {
+                "aggregateRating": 5.4,
+                "voteCount": 117
+            },
+            "plot": "D\u00eds, 23, is still to decide what to do with her life. Obsessed by the thought of being \"abnormally normal\", a mere photocopy of long lost original, she wanders from one odd job to another and tries out various cources at the University."
+        },
+        {
+            "id": "tt2374902",
+            "type": "movie",
+            "primaryTitle": "Metalhead",
+            "originalTitle": "M\u00e1lmhaus",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BMTQ1NTI4MjE5MV5BMl5BanBnXkFtZTgwNzI1MzgxMDE@._V1_.jpg",
+                "width": 2480,
+                "height": 3508
+            },
+            "startYear": 2013,
+            "runtimeSeconds": 5820,
+            "genres": [
+                "Drama"
+            ],
+            "rating": {
+                "aggregateRating": 7,
+                "voteCount": 8440
+            },
+            "plot": "A girl is caught between the life that took her brother and her own inability to strike out on her own. In her grief, she finds solace in the dark music of Black Metal and dreams of becoming a rock star."
+        },
+        {
+            "id": "tt13845660",
+            "type": "movie",
+            "primaryTitle": "Beautiful Beings",
+            "originalTitle": "Berdreymi",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BM2U1NGFkZDUtNmIyMC00M2ZlLWI3ODYtYTczNDg3ZGZkOTAzXkEyXkFqcGc@._V1_.jpg",
+                "width": 8268,
+                "height": 11811
+            },
+            "startYear": 2022,
+            "runtimeSeconds": 7380,
+            "genres": [
+                "Drama"
+            ],
+            "rating": {
+                "aggregateRating": 7.3,
+                "voteCount": 3044
+            },
+            "plot": "Addi, a gifted boy raised by a clairvoyant mother, decides to adopt a bullied misfit into his gang of outsiders. Left to their own devices, the boys discover aggression, violence, loyalty, and love."
+        },
+        {
+            "id": "tt39163015",
+            "type": "movie",
+            "primaryTitle": "Time and Water",
+            "originalTitle": "Time and Water",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BMjdmODE5NjItM2M2Yi00NzQ3LWE4ZmItMGVjM2ExODEyN2U4XkEyXkFqcGc@._V1_.jpg",
+                "width": 1365,
+                "height": 2048
+            },
+            "startYear": 2026,
+            "runtimeSeconds": 5400,
+            "genres": [
+                "Documentary",
+                "Family",
+                "Sci-Fi"
+            ],
+            "rating": {
+                "aggregateRating": 8,
+                "voteCount": 41
+            },
+            "plot": "An Icelandic writer preserves vanishing glaciers, departed grandparents, family memories, and flowing time in his personal archives, transforming loss into a time capsule."
+        },
+        {
+            "id": "tt38060097",
+            "type": "movie",
+            "primaryTitle": "Joan of Arc",
+            "originalTitle": "J\u00f3hanna af \u00d6rk",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BZTYzMGQ4ZjctMjk0OS00Y2RmLWI5YTAtYzRkZTc3MDc4YzdkXkEyXkFqcGc@._V1_.jpg",
+                "width": 677,
+                "height": 1000
+            },
+            "startYear": 2025,
+            "runtimeSeconds": 3720,
+            "rating": {
+                "aggregateRating": 6.7,
+                "voteCount": 65
+            },
+            "plot": "Three siblings craft a knight-like figure, only to unleash a barrage of arrows upon it. Through the seasons, we observe their lives as they both build and demolish their lifelike creation."
+        },
+        {
+            "id": "tt1764275",
+            "type": "movie",
+            "primaryTitle": "The Deep",
+            "originalTitle": "Dj\u00fapi\u00f0",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BODc3MzQyMTU0OF5BMl5BanBnXkFtZTcwNjI0MzU0OQ@@._V1_.jpg",
+                "width": 642,
+                "height": 900
+            },
+            "startYear": 2012,
+            "runtimeSeconds": 5700,
+            "genres": [
+                "Action",
+                "Adventure",
+                "Drama",
+                "Thriller"
+            ],
+            "rating": {
+                "aggregateRating": 6.6,
+                "voteCount": 6034
+            },
+            "plot": "Based on actual events, a fisherman tries to survive in the freezing ocean after his boat capsizes off the south coast of Iceland."
+        },
+        {
+            "id": "tt9801736",
+            "type": "movie",
+            "primaryTitle": "A White, White Day",
+            "originalTitle": "Hv\u00edtur, hv\u00edtur dagur",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BY2ZiODU4ZjUtNGIwYy00OWViLWEzZGUtNWVmZmJiNDU0ODg1XkEyXkFqcGc@._V1_.jpg",
+                "width": 2800,
+                "height": 4036
+            },
+            "startYear": 2019,
+            "runtimeSeconds": 6540,
+            "genres": [
+                "Drama",
+                "Mystery",
+                "Thriller"
+            ],
+            "rating": {
+                "aggregateRating": 6.6,
+                "voteCount": 6356
+            },
+            "plot": "An off-duty police officer begins to suspect a local man of having had an affair with his recently deceased wife. Gradually his obsession with finding out the truth accumulates and inevitably begins to endanger himself and his loved ones."
+        },
+        {
+            "id": "tt39451781",
+            "type": "movie",
+            "primaryTitle": "H\u00f3lmav\u00edk",
+            "originalTitle": "H\u00f3lmav\u00edk",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BOTM5ZjU4NmQtNTBhZC00ZmI1LWE4M2QtMjVmMmQ1MDRjNTk2XkEyXkFqcGc@._V1_.jpg",
+                "width": 3268,
+                "height": 2826
+            },
+            "genres": [
+                "Crime",
+                "Drama",
+                "Thriller"
+            ],
+            "plot": "Koldo is tasked with buying a cod processing plant in H\u00f3lmav\u00edk, arriving there just days before Iceland is set to repeal the law that has allowed the killing of Basques since 1615."
+        },
+        {
+            "id": "tt19496260",
+            "type": "movie",
+            "primaryTitle": "Eternal",
+            "originalTitle": "For evigt",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BMjAwMmNjYmYtNjgzMi00ZjVlLWExZjYtMzNjZmEyMGMzZTBiXkEyXkFqcGc@._V1_.jpg",
+                "width": 1792,
+                "height": 2560
+            },
+            "startYear": 2023,
+            "runtimeSeconds": 6180,
+            "genres": [
+                "Drama",
+                "Sci-Fi"
+            ],
+            "rating": {
+                "aggregateRating": 5,
+                "voteCount": 624
+            },
+            "plot": "An earthquake causes a mysterious fracture on the ocean floor, which accelerates climate change."
+        },
+        {
+            "id": "tt0102081",
+            "type": "movie",
+            "primaryTitle": "The White Viking",
+            "originalTitle": "Hv\u00edti v\u00edkingurinn",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BMDA5Mjc0NzctYzZmNC00ZmNmLThmNjAtZDVmYjUzZGQxZWJjXkEyXkFqcGc@._V1_.jpg",
+                "width": 3460,
+                "height": 4912
+            },
+            "startYear": 1991,
+            "runtimeSeconds": 7860,
+            "genres": [
+                "Action",
+                "Adventure",
+                "Drama",
+                "Romance"
+            ],
+            "rating": {
+                "aggregateRating": 6,
+                "voteCount": 488
+            },
+            "plot": "Norway in the 10th century. Askur, son of the powerful Thorgeir marries Embla, daughter of one of the few remaining landowners in Norway, in a pagan ceremony. King Olav, a ruthless Christian, wants to remove all traces of non-Christian beliefs and captures the two of them during the ceremony. In order to free Embla, Askur must go to Iceland and convert the people there to Christianity."
+        },
+        {
+            "id": "tt29506136",
+            "type": "movie",
+            "primaryTitle": "Skinny Love",
+            "originalTitle": "Skinny Love",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BMWYyMjM0MzQtZDI4Yy00NGU0LWFhMjMtZDQ3MGE5MzdlYzRhXkEyXkFqcGc@._V1_.jpg",
+                "width": 978,
+                "height": 1500
+            },
+            "startYear": 2024,
+            "runtimeSeconds": 5640,
+            "genres": [
+                "Comedy",
+                "Drama",
+                "Romance"
+            ],
+            "rating": {
+                "aggregateRating": 6.9,
+                "voteCount": 470
+            },
+            "plot": "When Emil\u00fd learns that her long-distance girlfriend wants to move to Iceland and make their open relationship exclusive, she must face her anxieties about the future."
+        },
+        {
+            "id": "tt0237993",
+            "type": "movie",
+            "primaryTitle": "101 Reykjav\u00edk",
+            "originalTitle": "101 Reykjav\u00edk",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BMTIyNTEzMDE4N15BMl5BanBnXkFtZTYwMTk1NDk5._V1_.jpg",
+                "width": 200,
+                "height": 286
+            },
+            "startYear": 2000,
+            "runtimeSeconds": 5280,
+            "genres": [
+                "Comedy",
+                "Drama",
+                "Romance"
+            ],
+            "rating": {
+                "aggregateRating": 6.7,
+                "voteCount": 10216
+            },
+            "plot": "Will the 30 y.o. Hlynur ever move out of his mother's apartment in Reykjav\u00edk? Social welfare keeps him passive but things change when his mother's Spanish friend, Lola, arrives and stays through Xmas and New Year's Eve."
+        },
+        {
+            "id": "tt4561318",
+            "type": "movie",
+            "primaryTitle": "Webcam",
+            "originalTitle": "Webcam",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BY2U2Mzc2NzYtYzcxOS00NDkzLTg5YmItMTk4NTA0OTRkY2MzXkEyXkFqcGc@._V1_.jpg",
+                "width": 6986,
+                "height": 9921
+            },
+            "startYear": 2015,
+            "runtimeSeconds": 6600,
+            "genres": [
+                "Comedy",
+                "Drama"
+            ],
+            "rating": {
+                "aggregateRating": 5.4,
+                "voteCount": 329
+            },
+            "plot": "A college student begins working as a cam girl, with support from her best friend."
+        },
+        {
+            "id": "tt3823018",
+            "type": "movie",
+            "primaryTitle": "Sparrows",
+            "originalTitle": "\u00derestir",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BNTgwODg1OTktYjQ3My00OWIxLThhZGUtODg3YzlkMmMzMDI0XkEyXkFqcGc@._V1_.jpg",
+                "width": 620,
+                "height": 887
+            },
+            "startYear": 2015,
+            "runtimeSeconds": 5940,
+            "genres": [
+                "Drama"
+            ],
+            "rating": {
+                "aggregateRating": 6.8,
+                "voteCount": 1775
+            },
+            "plot": "Ari's teenage lifestyle in the big city is disrupted as he is sent by his mother to live with his uninvolved father and his grandmother in a small fishing village."
+        },
+        {
+            "id": "tt2359473",
+            "type": "movie",
+            "primaryTitle": "XL",
+            "originalTitle": "XL",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BMTc2MDMyMjYwMl5BMl5BanBnXkFtZTgwMjM0NTA2MTE@._V1_.jpg",
+                "width": 3508,
+                "height": 4967
+            },
+            "startYear": 2013,
+            "runtimeSeconds": 5280,
+            "genres": [
+                "Drama"
+            ],
+            "rating": {
+                "aggregateRating": 5.4,
+                "voteCount": 269
+            },
+            "plot": "Leifur Sigurdarson, an unstoppable ladies man and alcoholic parliament member, is forced in rehab by his friend and boss, the Prime Minister of Iceland. But before he gets spanked in public, he invites his friends over for a gargantuan feast. During the party we get to know Leifur and the other characters in the movie as well as finding out about Leifur's, and his posse's, sordid past."
+        },
+        {
+            "id": "tt6776106",
+            "type": "movie",
+            "primaryTitle": "And Breathe Normally",
+            "originalTitle": "Andi\u00f0 e\u00f0lilega",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BYTM5OTU3NjAtMWU3NS00N2I0LTg1MzEtOTEyZTFlYTZmNDBhXkEyXkFqcGc@._V1_.jpg",
+                "width": 1251,
+                "height": 1772
+            },
+            "startYear": 2018,
+            "runtimeSeconds": 5700,
+            "genres": [
+                "Drama"
+            ],
+            "rating": {
+                "aggregateRating": 7,
+                "voteCount": 3742
+            },
+            "plot": "Two women's lives will intersect while trapped in circumstances unforeseen. Between a struggling Icelandic mother and an asylum seeker from Guinea-Bissau, a delicate bond will form as both strategize to get their lives back on track."
+        },
+        {
+            "id": "tt0248190",
+            "type": "movie",
+            "primaryTitle": "No Such Thing",
+            "originalTitle": "No Such Thing",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BMTkxNTUzNzM0Nl5BMl5BanBnXkFtZTYwODY1NTc3._V1_.jpg",
+                "width": 485,
+                "height": 718
+            },
+            "startYear": 2001,
+            "runtimeSeconds": 6120,
+            "genres": [
+                "Comedy",
+                "Drama",
+                "Fantasy"
+            ],
+            "rating": {
+                "aggregateRating": 6,
+                "voteCount": 4717
+            },
+            "plot": "A young journalist journeys to Iceland to find her missing fianc\u00e9 only to encounter a mythical creature."
+        },
+        {
+            "id": "tt6223806",
+            "type": "movie",
+            "primaryTitle": "Under the Tree",
+            "originalTitle": "Undir tr\u00e9nu",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BZWZhODc4MTAtNzg5Yy00NDkxLWJmYmYtZTE2YzIxMzdmZWI5XkEyXkFqcGc@._V1_.jpg",
+                "width": 2764,
+                "height": 4096
+            },
+            "startYear": 2017,
+            "runtimeSeconds": 5340,
+            "genres": [
+                "Comedy",
+                "Drama",
+                "Thriller"
+            ],
+            "rating": {
+                "aggregateRating": 6.8,
+                "voteCount": 5875
+            },
+            "plot": "When Baldwin and Inga's next door neighbours complain that a tree in their backyard casts a shadow over their sundeck, what starts off as a typical spat between neighbours in the suburbs unexpectedly and violently spirals out of control."
+        },
+        {
+            "id": "tt4966532",
+            "type": "movie",
+            "primaryTitle": "I Remember You",
+            "originalTitle": "\u00c9g man \u00feig",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BZGI0NGJjNTMtNjZhMy00ZDU4LWI4NTktMmNiYTM5ZmRmZGUzXkEyXkFqcGc@._V1_.jpg",
+                "width": 1015,
+                "height": 1500
+            },
+            "startYear": 2017,
+            "runtimeSeconds": 6300,
+            "genres": [
+                "Drama",
+                "Horror",
+                "Mystery",
+                "Thriller"
+            ],
+            "rating": {
+                "aggregateRating": 6.1,
+                "voteCount": 5591
+            },
+            "plot": "A story about a young man and two women who move into a small abandoned town in Iceland to renovate an old house. Little do they know the town has a dark history."
+        },
+        {
+            "id": "tt0805576",
+            "type": "movie",
+            "primaryTitle": "Jar City",
+            "originalTitle": "M\u00fdrin",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BNzIzNjY1MzY0MV5BMl5BanBnXkFtZTcwOTkwMjE0MQ@@._V1_.jpg",
+                "width": 450,
+                "height": 667
+            },
+            "startYear": 2006,
+            "runtimeSeconds": 5580,
+            "genres": [
+                "Crime",
+                "Drama",
+                "Mystery",
+                "Thriller"
+            ],
+            "rating": {
+                "aggregateRating": 6.8,
+                "voteCount": 5766
+            },
+            "plot": "A murder opens up a bleak trail of long buried secrets and small town corruption for a worn out police detective and his squad."
+        },
+        {
+            "id": "tt0260594",
+            "type": "movie",
+            "primaryTitle": "The Icelandic Dream",
+            "originalTitle": "\u00cdslenski draumurinn",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BMzgxODkyMTI0M15BMl5BanBnXkFtZTYwODcxNjk5._V1_.jpg",
+                "width": 289,
+                "height": 475
+            },
+            "startYear": 2000,
+            "runtimeSeconds": 5400,
+            "genres": [
+                "Comedy",
+                "Sport"
+            ],
+            "rating": {
+                "aggregateRating": 6.9,
+                "voteCount": 449
+            },
+            "plot": "A business man and weekend dad is getting worn down by family trouble, business failure and the continuous loss of his favourite football team."
+        },
+        {
+            "id": "tt21976444",
+            "type": "movie",
+            "primaryTitle": "Cold",
+            "originalTitle": "Kuldi",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BYTBkNTI4MDAtNjU1MC00MzY4LTg1OGQtODJmNmM2M2M0Mzg0XkEyXkFqcGc@._V1_.jpg",
+                "width": 1386,
+                "height": 2048
+            },
+            "startYear": 2023,
+            "runtimeSeconds": 5880,
+            "genres": [
+                "Crime",
+                "Drama",
+                "Horror",
+                "Thriller"
+            ],
+            "rating": {
+                "aggregateRating": 5.6,
+                "voteCount": 534
+            },
+            "plot": "As \u00d3dinn investigates decades-old deaths at a juvenile treatment centre, he begins to suspect that the sinister secrets he uncovers are connected to his ex-wife's mysterious suicide."
+        },
+        {
+            "id": "tt4433890",
+            "type": "movie",
+            "primaryTitle": "The Oath",
+            "originalTitle": "Ei\u00f0urinn",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BMGE5OThkYjgtODk2Yy00Mjk4LWJiM2YtODRhNGM2ZDhiNTY2XkEyXkFqcGc@._V1_.jpg",
+                "width": 1022,
+                "height": 1500
+            },
+            "startYear": 2016,
+            "runtimeSeconds": 6180,
+            "genres": [
+                "Crime",
+                "Drama",
+                "Thriller"
+            ],
+            "rating": {
+                "aggregateRating": 6.4,
+                "voteCount": 2606
+            },
+            "plot": "A troubled father working as a doctor decides to go to extreme measures to save his daughter from the devastating influence of her drug-dealer boyfriend."
+        },
+        {
+            "id": "tt7358598",
+            "type": "movie",
+            "primaryTitle": "Let Me Fall",
+            "originalTitle": "Lof m\u00e9r a\u00f0 falla",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BNzkwMjIzMmItY2EwNi00Yjg4LThhYmYtMjRhYWE1ODY2ZWQzXkEyXkFqcGc@._V1_.jpg",
+                "width": 1377,
+                "height": 2047
+            },
+            "startYear": 2018,
+            "runtimeSeconds": 8160,
+            "genres": [
+                "Biography",
+                "Crime",
+                "Drama"
+            ],
+            "rating": {
+                "aggregateRating": 7.7,
+                "voteCount": 1137
+            },
+            "plot": "Drawing on true stories and interviews with the families of addicts, this harrowing portrait of addiction follows Stella and Magnea through the decades as precarious teenage years morph into perilous adulthoods."
+        },
+        {
+            "id": "tt3074732",
+            "type": "movie",
+            "primaryTitle": "Of Horses and Men",
+            "originalTitle": "Hross \u00ed oss",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BMjI5OTM1OTA1NV5BMl5BanBnXkFtZTgwNjE3MTI1NDE@._V1_.jpg",
+                "width": 2764,
+                "height": 4096
+            },
+            "startYear": 2013,
+            "runtimeSeconds": 4860,
+            "genres": [
+                "Comedy",
+                "Drama",
+                "Romance"
+            ],
+            "rating": {
+                "aggregateRating": 6.8,
+                "voteCount": 3632
+            },
+            "plot": "A country romance about the human streak in the horse and the horse in the human. Love and death become interlaced and with immense consequences. The fortunes of the people in the country through the horses' perception."
+        },
+        {
+            "id": "tt0351461",
+            "type": "movie",
+            "primaryTitle": "Noi the Albino",
+            "originalTitle": "N\u00f3i albin\u00f3i",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BNDQ1NjNiMGUtYmNkMi00ZDBiLWFhNTEtYmE1MTUxOTc2OGUyXkEyXkFqcGc@._V1_.jpg",
+                "width": 533,
+                "height": 755
+            },
+            "startYear": 2003,
+            "runtimeSeconds": 5580,
+            "genres": [
+                "Comedy",
+                "Drama"
+            ],
+            "rating": {
+                "aggregateRating": 7.3,
+                "voteCount": 9837
+            },
+            "plot": "Tragicomedy that describes the monotonous daily life of No\u00ed, a 17-year-old young man who lives in an isolated village in Iceland."
+        },
+        {
+            "id": "tt0236524",
+            "type": "movie",
+            "primaryTitle": "Witchcraft",
+            "originalTitle": "Myrkrah\u00f6f\u00f0inginn",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BMTk5ZmFlMWUtM2U4OC00NjgyLTgxM2QtNTNiMjI0YzYxMTdmXkEyXkFqcGc@._V1_.jpg",
+                "width": 360,
+                "height": 522
+            },
+            "startYear": 1999,
+            "runtimeSeconds": 7080,
+            "genres": [
+                "Drama"
+            ],
+            "rating": {
+                "aggregateRating": 5.9,
+                "voteCount": 251
+            },
+            "plot": "The young and fanatical Jon is appointed pastor to a remote church in 17th century Iceland. As is custom, he marries the widow of his predecessor, a woman much older than he is. He is ardent in his fight against Satan, and the villagers don't dare to question his authority. When he falls for a beautiful young woman, Jon is convinced witchcraft is at work, and his crusade leads to cruel executions of innocent people. The stronger his lust, the deeper his madness drives him in his religious fervor."
+        },
+        {
+            "id": "tt40150394",
+            "type": "movie",
+            "primaryTitle": "La Piet\u00e0",
+            "originalTitle": "La Piet\u00e0",
+            "startYear": 2026,
+            "runtimeSeconds": 4920,
+            "genres": [
+                "Documentary"
+            ],
+            "plot": "Follows seven Icelandic siblings who lived in deliberate isolation at Europe's largest glacier, dedicating their lives to observing ice and nature before climate change had a name. A poetic elegy on ecological grief."
+        }
+    ],
+    "totalCount": 500,
+    "nextPageToken": "eyJlc1Rva2VuIjpbIjkwNjQ5IiwiOTA2NDkiLCJ0dDQwMTUwMzk0Il0sImZpbHRlciI6IntcImNvbnN0cmFpbnRzXCI6e1wibGFuZ3VhZ2VDb25zdHJhaW50XCI6e1wiYWxsTGFuZ3VhZ2VzXCI6W1wiaXNcIl19LFwib3JpZ2luQ291bnRyeUNvbnN0cmFpbnRcIjp7XCJhbGxDb3VudHJpZXNcIjpbXCJJU1wiXX0sXCJ0aXRsZVR5cGVDb25zdHJhaW50XCI6e1wiYW55VGl0bGVUeXBlSWRzXCI6W1wibW92aWVcIl19fSxcImxhbmd1YWdlXCI6XCJlbi1VU1wiLFwic29ydFwiOntcInNvcnRCeVwiOlwiUE9QVUxBUklUWVwiLFwic29ydE9yZGVyXCI6XCJBU0NcIn0sXCJyZXN1bHRJbmRleFwiOjQ5fSIsInNpZyI6ImM0NTcxZDE0MTYzMmYwNmRmOTc0ZmJjZWVmNDQ3ZDRkYjgzYWEzNzgzYzg5ZGVhYjBmNTBkNTE2NGVjZWFiZmYifQ=="
+}
