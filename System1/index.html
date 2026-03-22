@@ -904,6 +904,239 @@ textarea.input { resize: vertical; min-height: 80px; line-height: 1.5; }
 }
 
 /* ═══════════════════════════════════════════
+   DATE INPUT FIX
+   ═══════════════════════════════════════════ */
+input[type="date"] {
+  color-scheme: dark;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.7);
+  cursor: pointer;
+}
+
+/* ═══════════════════════════════════════════
+   ADVANCED SEARCH FILTERS
+   ═══════════════════════════════════════════ */
+.search-filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.search-filters select, .search-filters input {
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  color: var(--text);
+  font-size: 0.85rem;
+  font-family: var(--font-sans);
+  width: 100%;
+}
+.search-filters select:focus, .search-filters input:focus {
+  border-color: var(--accent);
+}
+.search-filters .filter-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--text-muted);
+  font-weight: 700;
+  margin-bottom: 5px;
+  display: block;
+}
+.filter-actions {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+}
+.toggle-filters-btn {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.15s;
+  margin-bottom: 12px;
+}
+.toggle-filters-btn:hover { border-color: var(--accent); color: var(--accent); }
+.toggle-filters-btn.active { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+
+/* ═══════════════════════════════════════════
+   DASHBOARD ENHANCEMENTS
+   ═══════════════════════════════════════════ */
+.dash-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+.dash-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+.dash-panel h3 {
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  font-weight: 700;
+  font-family: var(--font-sans);
+  margin-bottom: 16px;
+}
+.genre-bars { display: flex; flex-direction: column; gap: 8px; }
+.genre-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.genre-bar-label {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  min-width: 80px;
+  text-align: right;
+}
+.genre-bar-track {
+  flex: 1;
+  height: 8px;
+  background: var(--bg-secondary);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.genre-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+.genre-bar-count {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  min-width: 24px;
+  font-family: var(--font-mono);
+}
+.rating-dist { display: flex; align-items: flex-end; gap: 4px; height: 100px; }
+.rating-dist-bar {
+  flex: 1;
+  background: var(--accent);
+  border-radius: 3px 3px 0 0;
+  min-height: 2px;
+  position: relative;
+  transition: height 0.5s ease;
+  cursor: default;
+}
+.rating-dist-bar:hover { opacity: 0.8; }
+.rating-dist-bar .tooltip {
+  display: none;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.rating-dist-bar:hover .tooltip { display: block; }
+.rating-dist-labels {
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
+}
+.rating-dist-labels span {
+  flex: 1;
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+/* ═══════════════════════════════════════════
+   BOX OFFICE VIEW
+   ═══════════════════════════════════════════ */
+.boxoffice-search {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.boxoffice-search input { flex: 1; }
+.boxoffice-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+.bo-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  transition: border-color 0.2s;
+}
+.bo-card:hover { border-color: var(--border-light); }
+.bo-card .bo-title {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.bo-card .bo-year {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+.bo-stat-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.bo-stat-row:last-child { border-bottom: none; }
+.bo-stat-label { font-size: 0.85rem; color: var(--text-secondary); }
+.bo-stat-value {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--success);
+}
+
+/* ═══════════════════════════════════════════
+   RECOMMENDATIONS
+   ═══════════════════════════════════════════ */
+.recs-section { margin-bottom: 40px; }
+.recs-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.recs-header h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.recs-based-on {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+.recs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+/* ═══════════════════════════════════════════
    RESPONSIVE
    ═══════════════════════════════════════════ */
 @media (max-width: 768px) {
@@ -911,9 +1144,11 @@ textarea.input { resize: vertical; min-height: 80px; line-height: 1.5; }
   .main { margin-left: 0; }
   .content { padding: 24px 16px; }
   .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .dash-grid { grid-template-columns: 1fr; }
   .modal-hero { flex-direction: column; align-items: center; text-align: center; }
   .modal-poster { width: 140px; }
   .modal-meta { justify-content: center; }
+  .search-filters { grid-template-columns: 1fr 1fr; }
 }
 </style>
 </head>
@@ -962,6 +1197,11 @@ textarea.input { resize: vertical; min-height: 80px; line-height: 1.5; }
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
         Lists
       </button>
+      <div class="nav-divider"></div>
+      <button class="nav-item" data-view="boxoffice" onclick="showView('boxoffice')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        Box Office
+      </button>
     </div>
     <div class="sidebar-user" id="sidebar-user"></div>
   </nav>
@@ -977,6 +1217,27 @@ textarea.input { resize: vertical; min-height: 80px; line-height: 1.5; }
           <p id="dash-subtitle">Your cinematic journey awaits.</p>
         </div>
         <div class="stats-row" id="stats-row"></div>
+
+        <div class="dash-grid">
+          <div class="dash-panel">
+            <h3>Genre Breakdown</h3>
+            <div id="genre-bars" class="genre-bars"></div>
+          </div>
+          <div class="dash-panel">
+            <h3>Your Rating Distribution</h3>
+            <div id="rating-dist" class="rating-dist"></div>
+            <div id="rating-dist-labels" class="rating-dist-labels"></div>
+          </div>
+        </div>
+
+        <div class="recs-section" id="recs-section" style="display:none;">
+          <div class="recs-header">
+            <h3>🎯 Recommended For You</h3>
+            <span class="recs-based-on" id="recs-based-on"></span>
+          </div>
+          <div class="recs-grid" id="recs-grid"></div>
+        </div>
+
         <div class="movie-scroller-section">
           <h3>🔥 Recently Added</h3>
           <div class="movie-scroller" id="recent-scroller"></div>
@@ -994,6 +1255,59 @@ textarea.input { resize: vertical; min-height: 80px; line-height: 1.5; }
           <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           <input type="text" id="search-input" class="input" placeholder="Search by title..." autocomplete="off">
           <div class="search-spinner" id="search-spinner"><div class="spinner"></div></div>
+        </div>
+        <button class="toggle-filters-btn" id="toggle-filters" onclick="toggleAdvancedSearch()">⚙ Advanced Filters</button>
+        <div class="search-filters" id="search-filters" style="display:none;">
+          <div>
+            <span class="filter-label">Type</span>
+            <select id="filter-type">
+              <option value="">All Types</option>
+              <option value="MOVIE">Movie</option>
+              <option value="TV_SERIES">TV Series</option>
+              <option value="TV_MINI_SERIES">Mini Series</option>
+              <option value="TV_MOVIE">TV Movie</option>
+              <option value="SHORT">Short</option>
+              <option value="VIDEO_GAME">Video Game</option>
+            </select>
+          </div>
+          <div>
+            <span class="filter-label">Genre</span>
+            <select id="filter-genre">
+              <option value="">All Genres</option>
+              <option>Action</option><option>Adventure</option><option>Animation</option>
+              <option>Biography</option><option>Comedy</option><option>Crime</option>
+              <option>Documentary</option><option>Drama</option><option>Family</option>
+              <option>Fantasy</option><option>Film Noir</option><option>History</option>
+              <option>Horror</option><option>Music</option><option>Musical</option>
+              <option>Mystery</option><option>Romance</option><option>Sci-Fi</option>
+              <option>Sport</option><option>Thriller</option><option>War</option><option>Western</option>
+            </select>
+          </div>
+          <div>
+            <span class="filter-label">Year From</span>
+            <input type="number" id="filter-year-from" placeholder="e.g. 2000" min="1900" max="2030">
+          </div>
+          <div>
+            <span class="filter-label">Year To</span>
+            <input type="number" id="filter-year-to" placeholder="e.g. 2026" min="1900" max="2030">
+          </div>
+          <div>
+            <span class="filter-label">Min Rating</span>
+            <input type="number" id="filter-min-rating" placeholder="0.0" min="0" max="10" step="0.1">
+          </div>
+          <div>
+            <span class="filter-label">Sort By</span>
+            <select id="filter-sort">
+              <option value="SORT_BY_POPULARITY">Popularity</option>
+              <option value="SORT_BY_USER_RATING">Rating</option>
+              <option value="SORT_BY_RELEASE_DATE">Release Date</option>
+              <option value="SORT_BY_USER_RATING_COUNT">Vote Count</option>
+            </select>
+          </div>
+          <div class="filter-actions">
+            <button class="btn btn-primary btn-small" onclick="runAdvancedSearch()">Search</button>
+            <button class="btn btn-ghost btn-small" onclick="clearFilters()">Clear</button>
+          </div>
         </div>
         <div id="search-results" class="search-results"></div>
         <div id="search-empty" class="search-empty">
@@ -1051,6 +1365,22 @@ textarea.input { resize: vertical; min-height: 80px; line-height: 1.5; }
         </div>
         <div id="lists-container"></div>
         <div id="list-detail-container" style="display:none;"></div>
+      </div>
+
+      <!-- Box Office View -->
+      <div id="view-boxoffice" class="view">
+        <div class="section-header">
+          <div>
+            <h2>Box Office Lookup</h2>
+            <p class="section-subtitle">Search any movie to see its financial performance</p>
+          </div>
+        </div>
+        <div class="boxoffice-search">
+          <input type="text" class="input" id="bo-search-input" placeholder="Search for a movie..." autocomplete="off">
+          <button class="btn btn-primary" onclick="searchBoxOffice()">Lookup</button>
+        </div>
+        <div id="bo-results" class="boxoffice-cards"></div>
+        <div id="bo-collection" style="margin-top:32px;"></div>
       </div>
 
     </div>
@@ -1168,7 +1498,6 @@ auth.onAuthStateChanged(async (user) => {
 
 function signIn() {
   const provider = new firebase.auth.GoogleAuthProvider();
-  provider.setCustomParameters({ prompt: 'select_account' });
   auth.signInWithPopup(provider).catch(err => {
     console.error('Sign-in error:', err);
     toast('Sign-in failed. Please try again.');
@@ -1270,11 +1599,14 @@ function showView(name) {
   if (name === 'collection') renderCollection();
   if (name === 'lists') renderLists();
   if (name === 'search') document.getElementById('search-input').focus();
+  if (name === 'boxoffice') renderBoxOffice();
 }
 
 // ═══════════════════════════════════════════
 // DASHBOARD
 // ═══════════════════════════════════════════
+const genreColors = ['#FF6B4A','#FFB347','#4ECDC4','#A78BFA','#F472B6','#34D399','#60A5FA','#FBBF24','#F87171','#818CF8'];
+
 function renderDashboard() {
   const movies = Object.values(userMovies);
   const firstName = currentUser.displayName?.split(' ')[0] || 'cinephile';
@@ -1283,20 +1615,21 @@ function renderDashboard() {
   const totalMovies = movies.length;
   const rated = movies.filter(m => m.userRating);
   const avgRating = rated.length ? (rated.reduce((s, m) => s + m.userRating, 0) / rated.length).toFixed(1) : '—';
-  const totalHours = Math.round(movies.reduce((s, m) => s + (m.runtimeSeconds || 0), 0) / 3600);
   const genres = {};
   movies.forEach(m => (m.genres || []).forEach(g => { genres[g] = (genres[g] || 0) + 1; }));
   const topGenre = Object.entries(genres).sort((a, b) => b[1] - a[1])[0];
+  const totalLists = Object.keys(userLists).length;
 
   const quotes = [
     "Your cinematic journey awaits.",
     "Every great film begins with a single frame.",
     "Life is too short for bad movies.",
-    "A film is never really good unless the camera is an eye in the head of a poet.",
-    "Cinema is a mirror that can change the world."
+    "Cinema is a mirror that can change the world.",
+    "What will you watch next?"
   ];
   document.getElementById('dash-subtitle').textContent = quotes[Math.floor(Math.random() * quotes.length)];
 
+  // Stats row — 4 cards, no hours watched
   document.getElementById('stats-row').innerHTML = `
     <div class="stat-card">
       <div class="stat-label">Movies Watched</div>
@@ -1307,17 +1640,57 @@ function renderDashboard() {
       <div class="stat-value">${avgRating}<span class="unit">/10</span></div>
     </div>
     <div class="stat-card">
-      <div class="stat-label">Hours Watched</div>
-      <div class="stat-value">${totalHours}<span class="unit">h</span></div>
-    </div>
-    <div class="stat-card">
       <div class="stat-label">Top Genre</div>
       <div class="stat-value" style="font-size:1.3rem;">${topGenre ? topGenre[0] : '—'}</div>
     </div>
+    <div class="stat-card">
+      <div class="stat-label">Lists Created</div>
+      <div class="stat-value">${totalLists}</div>
+    </div>
   `;
 
+  // Genre breakdown bars
+  const sortedGenres = Object.entries(genres).sort((a, b) => b[1] - a[1]).slice(0, 8);
+  const maxGenre = sortedGenres[0]?.[1] || 1;
+  const genreBarsEl = document.getElementById('genre-bars');
+  if (sortedGenres.length) {
+    genreBarsEl.innerHTML = sortedGenres.map(([g, count], i) => `
+      <div class="genre-bar-row">
+        <span class="genre-bar-label">${g}</span>
+        <div class="genre-bar-track">
+          <div class="genre-bar-fill" style="width:${(count/maxGenre)*100}%;background:${genreColors[i % genreColors.length]}"></div>
+        </div>
+        <span class="genre-bar-count">${count}</span>
+      </div>
+    `).join('');
+  } else {
+    genreBarsEl.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem;">Add movies to see your genre breakdown.</p>';
+  }
+
+  // Rating distribution
+  const ratingCounts = {};
+  for (let i = 1; i <= 10; i++) ratingCounts[i] = 0;
+  rated.forEach(m => { if (m.userRating >= 1 && m.userRating <= 10) ratingCounts[m.userRating]++; });
+  const maxRating = Math.max(...Object.values(ratingCounts), 1);
+  const distEl = document.getElementById('rating-dist');
+  const labelsEl = document.getElementById('rating-dist-labels');
+  if (rated.length) {
+    distEl.innerHTML = Object.entries(ratingCounts).map(([r, c]) =>
+      `<div class="rating-dist-bar" style="height:${Math.max((c/maxRating)*100, 2)}%;background:${c > 0 ? 'var(--amber)' : 'var(--border)'}">
+        <div class="tooltip">${r}/10: ${c} movie${c!==1?'s':''}</div>
+      </div>`
+    ).join('');
+    labelsEl.innerHTML = Array.from({length:10}, (_,i) => `<span>${i+1}</span>`).join('');
+  } else {
+    distEl.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem;">Rate movies to see your distribution.</p>';
+    labelsEl.innerHTML = '';
+  }
+
+  // Recommendations
+  loadRecommendations();
+
   // Recently added
-  const recent = movies.sort((a, b) => {
+  const recent = [...movies].sort((a, b) => {
     const da = a.addedAt?.toDate ? a.addedAt.toDate() : new Date(a.addedAt || 0);
     const db2 = b.addedAt?.toDate ? b.addedAt.toDate() : new Date(b.addedAt || 0);
     return db2 - da;
@@ -1331,6 +1704,43 @@ function renderDashboard() {
   document.getElementById('toprated-scroller').innerHTML = topRated.length
     ? topRated.map(m => movieCardHTML(m, true)).join('')
     : '<p style="color:var(--text-muted);padding:20px;">Rate some movies to see your favorites!</p>';
+}
+
+// ═══════════════════════════════════════════
+// RECOMMENDATIONS ENGINE
+// ═══════════════════════════════════════════
+async function loadRecommendations() {
+  const movies = Object.values(userMovies);
+  const recsSection = document.getElementById('recs-section');
+  if (movies.length < 3) {
+    recsSection.style.display = 'none';
+    return;
+  }
+
+  // Find user's top genres from highly-rated movies
+  const genreScores = {};
+  movies.forEach(m => {
+    const weight = (m.userRating || 5) / 5; // higher rated = stronger signal
+    (m.genres || []).forEach(g => { genreScores[g] = (genreScores[g] || 0) + weight; });
+  });
+  const topGenres = Object.entries(genreScores).sort((a, b) => b[1] - a[1]).slice(0, 2).map(g => g[0]);
+
+  if (!topGenres.length) { recsSection.style.display = 'none'; return; }
+
+  document.getElementById('recs-based-on').textContent = `Based on your love of ${topGenres.join(' & ')}`;
+
+  // Fetch from API using top genres + high rating
+  const genreParam = topGenres.join(',');
+  const data = await apiRequest(`/titles?types=MOVIE&genres=${genreParam}&minAggregateRating=7&sortBy=SORT_BY_POPULARITY&sortOrder=DESC`);
+
+  if (!data || !data.titles) { recsSection.style.display = 'none'; return; }
+
+  // Filter out movies already in collection
+  const recs = data.titles.filter(t => !userMovies[t.id]).slice(0, 8);
+  if (!recs.length) { recsSection.style.display = 'none'; return; }
+
+  recsSection.style.display = 'block';
+  document.getElementById('recs-grid').innerHTML = recs.map(t => searchCardHTML(t)).join('');
 }
 
 // ═══════════════════════════════════════════
@@ -1752,6 +2162,162 @@ function refreshCurrentView() {
     if (viewingListId) viewList(viewingListId);
     else renderLists();
   }
+}
+
+// ═══════════════════════════════════════════
+// ADVANCED SEARCH
+// ═══════════════════════════════════════════
+function toggleAdvancedSearch() {
+  const el = document.getElementById('search-filters');
+  const btn = document.getElementById('toggle-filters');
+  const visible = el.style.display !== 'none';
+  el.style.display = visible ? 'none' : 'grid';
+  btn.classList.toggle('active', !visible);
+}
+
+async function runAdvancedSearch() {
+  const type = document.getElementById('filter-type').value;
+  const genre = document.getElementById('filter-genre').value;
+  const yearFrom = document.getElementById('filter-year-from').value;
+  const yearTo = document.getElementById('filter-year-to').value;
+  const minRating = document.getElementById('filter-min-rating').value;
+  const sortBy = document.getElementById('filter-sort').value;
+
+  let path = '/titles?';
+  if (type) path += `types=${type}&`;
+  if (genre) path += `genres=${genre}&`;
+  if (yearFrom) path += `startYear=${yearFrom}&`;
+  if (yearTo) path += `endYear=${yearTo}&`;
+  if (minRating) path += `minAggregateRating=${minRating}&`;
+  if (sortBy) path += `sortBy=${sortBy}&`;
+  path += 'sortOrder=DESC';
+
+  document.getElementById('search-spinner').classList.add('active');
+  document.getElementById('search-empty').style.display = 'none';
+  const data = await apiRequest(path);
+  document.getElementById('search-spinner').classList.remove('active');
+
+  if (data && data.titles && data.titles.length) {
+    document.getElementById('search-results').innerHTML = data.titles.map(t => searchCardHTML(t)).join('');
+  } else {
+    document.getElementById('search-results').innerHTML = '';
+    document.getElementById('search-empty').style.display = 'block';
+    document.getElementById('search-empty').querySelector('p').textContent = 'No results for those filters. Try broadening your search.';
+  }
+}
+
+function clearFilters() {
+  document.getElementById('filter-type').value = '';
+  document.getElementById('filter-genre').value = '';
+  document.getElementById('filter-year-from').value = '';
+  document.getElementById('filter-year-to').value = '';
+  document.getElementById('filter-min-rating').value = '';
+  document.getElementById('filter-sort').value = 'SORT_BY_POPULARITY';
+}
+
+// ═══════════════════════════════════════════
+// BOX OFFICE
+// ═══════════════════════════════════════════
+function renderBoxOffice() {
+  // Show box office data for movies in collection
+  const movies = Object.values(userMovies).slice(0, 6);
+  const container = document.getElementById('bo-collection');
+  if (movies.length) {
+    container.innerHTML = `<h3 style="margin-bottom:16px;font-family:var(--font-serif);">From Your Collection</h3>
+      <div class="boxoffice-cards" id="bo-collection-cards">
+        ${movies.map(m => `<div class="bo-card" style="opacity:0.5;text-align:center;padding:32px;">
+          <div class="bo-title">${escHTML(m.primaryTitle)}</div>
+          <div class="bo-year">${m.startYear || ''}</div>
+          <p style="color:var(--text-muted);font-size:0.85rem;cursor:pointer;" onclick="lookupBoxOffice('${m.titleId}')">Click to load box office →</p>
+        </div>`).join('')}
+      </div>`;
+  }
+}
+
+document.getElementById('bo-search-input').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') searchBoxOffice();
+});
+
+async function searchBoxOffice() {
+  const query = document.getElementById('bo-search-input').value.trim();
+  if (!query) return;
+
+  const container = document.getElementById('bo-results');
+  container.innerHTML = '<div style="text-align:center;padding:20px;"><div class="spinner" style="margin:0 auto;"></div></div>';
+
+  const searchData = await searchMovies(query);
+  if (!searchData || !searchData.titles || !searchData.titles.length) {
+    container.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:20px;">No movies found.</p>';
+    return;
+  }
+
+  // Fetch box office for the first few results
+  const titles = searchData.titles.slice(0, 4);
+  const results = [];
+
+  for (const title of titles) {
+    const bo = await apiRequest(`/titles/${title.id}/boxOffice`);
+    results.push({ title, boxOffice: bo });
+  }
+
+  container.innerHTML = results.map(({ title, boxOffice }) => {
+    if (!boxOffice || (!boxOffice.worldwideGross && !boxOffice.domesticGross && !boxOffice.productionBudget)) {
+      return `<div class="bo-card">
+        <div class="bo-title">${escHTML(title.primaryTitle)}</div>
+        <div class="bo-year">${title.startYear || ''}</div>
+        <p style="color:var(--text-muted);padding:16px 0;">No box office data available.</p>
+      </div>`;
+    }
+
+    const fmt = (money) => {
+      if (!money || !money.amount) return '—';
+      const num = parseInt(money.amount);
+      const currency = money.currency || 'USD';
+      if (num >= 1e9) return `${currency === 'USD' ? '$' : currency + ' '}${(num/1e9).toFixed(2)}B`;
+      if (num >= 1e6) return `${currency === 'USD' ? '$' : currency + ' '}${(num/1e6).toFixed(1)}M`;
+      if (num >= 1e3) return `${currency === 'USD' ? '$' : currency + ' '}${(num/1e3).toFixed(0)}K`;
+      return `${currency === 'USD' ? '$' : currency + ' '}${num.toLocaleString()}`;
+    };
+
+    const budget = boxOffice.productionBudget;
+    const domestic = boxOffice.domesticGross;
+    const worldwide = boxOffice.worldwideGross;
+    const opening = boxOffice.openingWeekendGross?.gross;
+
+    // Profit calculation
+    let profitHTML = '';
+    if (budget?.amount && worldwide?.amount) {
+      const profit = parseInt(worldwide.amount) - parseInt(budget.amount);
+      const isProfit = profit >= 0;
+      profitHTML = `<div class="bo-stat-row">
+        <span class="bo-stat-label">${isProfit ? 'Estimated Profit' : 'Estimated Loss'}</span>
+        <span class="bo-stat-value" style="color:${isProfit ? 'var(--success)' : 'var(--danger)'}">${isProfit ? '+' : ''}${fmt({amount: Math.abs(profit).toString(), currency: worldwide.currency || 'USD'})}</span>
+      </div>`;
+    }
+
+    return `<div class="bo-card">
+      <div class="bo-title">${escHTML(title.primaryTitle)}</div>
+      <div class="bo-year">${title.startYear || ''} · ${title.type || 'movie'}</div>
+      ${budget ? `<div class="bo-stat-row"><span class="bo-stat-label">Budget</span><span class="bo-stat-value" style="color:var(--text);">${fmt(budget)}</span></div>` : ''}
+      ${opening ? `<div class="bo-stat-row"><span class="bo-stat-label">Opening Weekend</span><span class="bo-stat-value">${fmt(opening)}</span></div>` : ''}
+      ${domestic ? `<div class="bo-stat-row"><span class="bo-stat-label">Domestic Gross</span><span class="bo-stat-value">${fmt(domestic)}</span></div>` : ''}
+      ${worldwide ? `<div class="bo-stat-row"><span class="bo-stat-label">Worldwide Gross</span><span class="bo-stat-value">${fmt(worldwide)}</span></div>` : ''}
+      ${profitHTML}
+    </div>`;
+  }).join('');
+}
+
+async function lookupBoxOffice(titleId) {
+  const bo = await apiRequest(`/titles/${titleId}/boxOffice`);
+  const movie = userMovies[titleId];
+  if (!bo || (!bo.worldwideGross && !bo.domesticGross)) {
+    toast('No box office data for this title.');
+    return;
+  }
+  // Quick inline display
+  document.getElementById('bo-search-input').value = movie?.primaryTitle || titleId;
+  document.getElementById('bo-results').innerHTML = '';
+  await searchBoxOffice();
 }
 
 // ═══════════════════════════════════════════
