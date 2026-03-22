@@ -1707,40 +1707,203 @@ function renderDashboard() {
 }
 
 // ═══════════════════════════════════════════
-// RECOMMENDATIONS ENGINE
+// RECOMMENDATIONS ENGINE (list-based)
 // ═══════════════════════════════════════════
+function buildProfile(movies) {
+  const genreScores = {};
+  const decadeScores = {};
+  let totalRating = 0, ratedCount = 0;
+  const years = [];
+
+  movies.forEach(m => {
+    const weight = (m.userRating || 5) / 5;
+    (m.genres || []).forEach(g => { genreScores[g] = (genreScores[g] || 0) + weight; });
+    if (m.startYear) {
+      const decade = Math.floor(m.startYear / 10) * 10;
+      decadeScores[decade] = (decadeScores[decade] || 0) + weight;
+      years.push(m.startYear);
+    }
+    if (m.userRating > 0) { totalRating += m.userRating; ratedCount++; }
+  });
+
+  const topGenres = Object.entries(genreScores).sort((a,b) => b[1] - a[1]).slice(0, 3).map(g => g[0]);
+  const topDecades = Object.entries(decadeScores).sort((a,b) => b[1] - a[1]).slice(0, 2).map(d => parseInt(d[0]));
+  const avgRating = ratedCount ? totalRating / ratedCount : 5;
+  const minThreshold = avgRating >= 8 ? 7.0 : avgRating >= 6 ? 6.0 : 5.0;
+  years.sort((a,b) => a - b);
+  const yearRange = years.length ? [years[Math.floor(years.length * 0.1)], years[years.length - 1]] : [1990, 2026];
+
+  return { topGenres, topDecades, avgRating, minThreshold, yearRange, count: movies.length };
+}
+
+// Adjacent genre map — for "explore" variety
+const adjacentGenres = {
+  Action:'Thriller', Thriller:'Mystery', Comedy:'Romance', Drama:'Biography',
+  'Sci-Fi':'Fantasy', Horror:'Mystery', Romance:'Drama', Adventure:'Fantasy',
+  Crime:'Thriller', Animation:'Family', Documentary:'Biography', War:'History',
+  Fantasy:'Adventure', Mystery:'Crime', Biography:'History', Western:'Adventure',
+  Family:'Animation', History:'War', Sport:'Drama', Music:'Musical', Musical:'Music'
+};
+
+function buildQueries(profile, strategy) {
+  const queries = [];
+  const g = profile.topGenres;
+  const mr = profile.minThreshold;
+
+  if (strategy === 'similar' && g.length) {
+    queries.push({ genres: g.slice(0,2).join(','), minAggregateRating: mr,
+      startYear: profile.yearRange[0], endYear: profile.yearRange[1],
+      sortBy: 'SORT_BY_USER_RATING', sortOrder: 'DESC' });
+  } else if (strategy === 'explore' && g.length) {
+    // Adjacent genre, same era
+    const adj = adjacentGenres[g[0]] || 'Drama';
+    queries.push({ genres: adj, minAggregateRating: mr,
+      startYear: profile.yearRange[0], endYear: profile.yearRange[1],
+      sortBy: 'SORT_BY_POPULARITY', sortOrder: 'DESC' });
+    // Same genre, earlier era
+    if (profile.yearRange[0] > 1970) {
+      queries.push({ genres: g[0], endYear: profile.yearRange[0] - 1,
+        minAggregateRating: Math.max(mr, 7.0),
+        sortBy: 'SORT_BY_USER_RATING', sortOrder: 'DESC' });
+    }
+  } else {
+    // Balanced (default)
+    if (g.length >= 2) {
+      queries.push({ genres: g.slice(0,2).join(','), minAggregateRating: mr,
+        sortBy: 'SORT_BY_POPULARITY', sortOrder: 'DESC' });
+    }
+    if (g.length >= 3) {
+      queries.push({ genres: g[2], minAggregateRating: Math.max(mr, 7.0),
+        sortBy: 'SORT_BY_USER_RATING', sortOrder: 'DESC' });
+    }
+    if (g.length && profile.topDecades.length) {
+      const d = profile.topDecades[0];
+      queries.push({ genres: g[0], startYear: d, endYear: d + 9,
+        minAggregateRating: mr, sortBy: 'SORT_BY_POPULARITY', sortOrder: 'DESC' });
+    }
+  }
+  if (!queries.length) {
+    queries.push({ minAggregateRating: 7.0, sortBy: 'SORT_BY_POPULARITY', sortOrder: 'DESC' });
+  }
+  return queries;
+}
+
+function scoreTitle(title, profile) {
+  if (userMovies[title.id]) return -1;
+  let score = 0;
+  const tg = new Set(title.genres || []);
+  const pg = new Set(profile.topGenres);
+  if (pg.size) score += ([...tg].filter(g => pg.has(g)).length / pg.size) * 0.4;
+  const r = title.rating?.aggregateRating || 0;
+  if (r) score += Math.min(r / 10, 1) * 0.25;
+  const y = title.startYear || 0;
+  if (y && profile.yearRange) {
+    const mid = (profile.yearRange[0] + profile.yearRange[1]) / 2;
+    score += Math.max(0, 1 - Math.abs(y - mid) / 50) * 0.15;
+  }
+  const votes = title.rating?.voteCount || 0;
+  if (votes > 50000) score += 0.1;
+  else if (votes > 10000) score += 0.05;
+  score += 0.1 * Math.random(); // mild shuffle for variety
+  return score;
+}
+
 async function loadRecommendations() {
-  const movies = Object.values(userMovies);
+  const allMovies = Object.values(userMovies);
   const recsSection = document.getElementById('recs-section');
-  if (movies.length < 3) {
+  const recsGrid = document.getElementById('recs-grid');
+  const recsBasedOn = document.getElementById('recs-based-on');
+
+  if (allMovies.length < 3) {
     recsSection.style.display = 'none';
     return;
   }
 
-  // Find user's top genres from highly-rated movies
-  const genreScores = {};
-  movies.forEach(m => {
-    const weight = (m.userRating || 5) / 5; // higher rated = stronger signal
-    (m.genres || []).forEach(g => { genreScores[g] = (genreScores[g] || 0) + weight; });
-  });
-  const topGenres = Object.entries(genreScores).sort((a, b) => b[1] - a[1]).slice(0, 2).map(g => g[0]);
+  // Find lists with 2+ movies
+  const listRecs = [];
+  for (const [listId, listData] of Object.entries(userLists)) {
+    const listMovies = allMovies.filter(m => (m.lists || []).includes(listId));
+    if (listMovies.length >= 2) {
+      listRecs.push({ listId, listData, movies: listMovies });
+    }
+  }
 
-  if (!topGenres.length) { recsSection.style.display = 'none'; return; }
+  let profile, reason, strategy;
 
-  document.getElementById('recs-based-on').textContent = `Based on your love of ${topGenres.join(' & ')}`;
+  if (listRecs.length > 0) {
+    // Pick the list with the most movies (strongest signal)
+    listRecs.sort((a, b) => b.movies.length - a.movies.length);
+    const best = listRecs[0];
+    profile = buildProfile(best.movies);
+    reason = `Based on your "${best.listData.name || 'list'}" (${profile.topGenres.slice(0,2).join(' & ')})`;
+    strategy = 'balanced';
+  } else {
+    // Fallback: general collection
+    profile = buildProfile(allMovies);
+    reason = `Based on your love of ${profile.topGenres.slice(0,2).join(' & ')}`;
+    strategy = 'balanced';
+  }
 
-  // Fetch from API using top genres + high rating
-  const genreParam = topGenres.join(',');
-  const data = await apiRequest(`/titles?types=MOVIE&genres=${genreParam}&minAggregateRating=7&sortBy=SORT_BY_POPULARITY&sortOrder=DESC`);
+  if (!profile.topGenres.length) { recsSection.style.display = 'none'; return; }
+  recsBasedOn.textContent = reason;
 
-  if (!data || !data.titles) { recsSection.style.display = 'none'; return; }
+  // Fire queries
+  const queries = buildQueries(profile, strategy);
+  const allTitles = {};
 
-  // Filter out movies already in collection
-  const recs = data.titles.filter(t => !userMovies[t.id]).slice(0, 8);
-  if (!recs.length) { recsSection.style.display = 'none'; return; }
+  for (const params of queries) {
+    let path = '/titles?types=MOVIE';
+    for (const [k, v] of Object.entries(params)) path += `&${k}=${v}`;
+    const data = await apiRequest(path);
+    if (data?.titles) {
+      data.titles.forEach(t => { if (!allTitles[t.id]) allTitles[t.id] = t; });
+    }
+  }
+
+  // Score, sort, deduplicate
+  const scored = Object.values(allTitles)
+    .map(t => ({ ...t, _score: scoreTitle(t, profile) }))
+    .filter(t => t._score >= 0)
+    .sort((a, b) => b._score - a._score)
+    .slice(0, 8);
+
+  if (!scored.length) { recsSection.style.display = 'none'; return; }
 
   recsSection.style.display = 'block';
-  document.getElementById('recs-grid').innerHTML = recs.map(t => searchCardHTML(t)).join('');
+  recsGrid.innerHTML = scored.map(t => searchCardHTML(t)).join('');
+
+  // If there are multiple lists, add a second row for the next list
+  if (listRecs.length >= 2) {
+    const second = listRecs[1];
+    const p2 = buildProfile(second.movies);
+    const q2 = buildQueries(p2, 'similar');
+    const titles2 = {};
+    for (const params of q2) {
+      let path = '/titles?types=MOVIE';
+      for (const [k, v] of Object.entries(params)) path += `&${k}=${v}`;
+      const data = await apiRequest(path);
+      if (data?.titles) data.titles.forEach(t => { if (!titles2[t.id] && !allTitles[t.id]) titles2[t.id] = t; });
+    }
+    const scored2 = Object.values(titles2)
+      .map(t => ({ ...t, _score: scoreTitle(t, p2) }))
+      .filter(t => t._score >= 0)
+      .sort((a, b) => b._score - a._score)
+      .slice(0, 6);
+
+    if (scored2.length) {
+      recsGrid.insertAdjacentHTML('beforebegin', `
+        <div style="margin-top:32px;margin-bottom:16px;">
+          <div class="recs-header">
+            <h3>🎯 Also try — from "${escHTML(second.listData.name)}"</h3>
+            <span class="recs-based-on">${p2.topGenres.slice(0,2).join(' & ')}</span>
+          </div>
+        </div>
+      `);
+      recsGrid.insertAdjacentHTML('afterend', `
+        <div class="recs-grid" style="margin-top:16px;">${scored2.map(t => searchCardHTML(t)).join('')}</div>
+      `);
+    }
+  }
 }
 
 // ═══════════════════════════════════════════
