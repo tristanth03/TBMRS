@@ -35,10 +35,36 @@
 
 import requests
 import json
+import math
 from collections import Counter, defaultdict
 from typing import Optional
+from datetime import datetime, timezone
 
 API_BASE = "https://api.imdbapi.dev"
+
+
+# ──────────────────────────────────────────────
+# Corpus Statistics (lightweight IDF)
+# ──────────────────────────────────────────────
+
+# Approximate document-frequency of IMDb genres across all titles.
+# Derived from genre distribution on IMDb's ~600k qualifying titles.
+# Used as IDF prior so "Drama" (appears in ~40% of titles) gets
+# downweighted vs "Film-Noir" (appears in <0.3%).
+_GENRE_DOC_FREQ = {
+    "Drama": 0.40, "Comedy": 0.22, "Action": 0.12, "Romance": 0.10,
+    "Thriller": 0.09, "Crime": 0.08, "Horror": 0.07, "Adventure": 0.07,
+    "Sci-Fi": 0.05, "Mystery": 0.05, "Fantasy": 0.04, "Documentary": 0.10,
+    "Animation": 0.04, "Family": 0.04, "Biography": 0.03, "History": 0.03,
+    "Music": 0.03, "War": 0.02, "Musical": 0.015, "Sport": 0.015,
+    "Western": 0.01, "Film Noir": 0.003, "News": 0.005, "Reality-TV": 0.005,
+    "Game Show": 0.003, "Talk-Show": 0.003, "Adult": 0.02, "Short": 0.08,
+}
+
+def _idf(genre: str) -> float:
+    """Inverse document frequency: rarer genres → higher weight."""
+    df = _GENRE_DOC_FREQ.get(genre, 0.01)
+    return math.log(1.0 / df)
 
 
 # ──────────────────────────────────────────────
@@ -50,21 +76,29 @@ class PreferenceProfile:
         Captures a user's taste from a set of movies.
         
         Built from either a list's movies or the full collection.
-        Weights genres, decades, types, and rating patterns.
+        
+        Signals extracted:
+          - TF-IDF weighted genre scores (rare genre affinity amplified)
+          - Genre co-occurrence pairs (captures "Crime + Thriller" as a unit)
+          - Rating surprise (user_rating - imdb_rating → personal taste signal)
+          - Temporal decay (recent watches weigh more)
+          - Bayesian rating threshold (derived, not hardcoded)
+          - Taste entropy (narrow vs broad → auto-tunes strategy)
     """
 
     def __init__(self, movies: list[dict]):
-        """
-            movies: list of movie dicts from the user's collection.
-                    Each should have: genres, startYear, type, userRating, imdbRating
-        """
         self.movies = movies
-        self.genre_scores = Counter()
+
+        # Raw accumulators
+        self.genre_scores = Counter()       # TF-IDF weighted
+        self.pair_scores = Counter()        # co-occurrence pairs
         self.decade_scores = Counter()
         self.type_scores = Counter()
-        self.avg_user_rating = 0
-        self.avg_imdb_rating = 0
+        self.avg_user_rating = 0.0
+        self.avg_imdb_rating = 0.0
+        self.rating_std = 0.0              # how varied the user's ratings are
         self.preferred_year_range = (1900, 2030)
+        self._genre_entropy = 0.0          # Shannon entropy of genre dist
 
         self._analyze()
 
@@ -72,92 +106,176 @@ class PreferenceProfile:
         if not self.movies:
             return
 
-        total_user_rating = 0
-        total_imdb_rating = 0
-        rated_count = 0
-        imdb_count = 0
+        now_ts = datetime.now(timezone.utc).timestamp()
+        user_ratings = []
+        imdb_ratings = []
         years = []
 
         for m in self.movies:
-            # Weight = user rating normalized (higher = stronger signal)
-            weight = (m.get("userRating") or 5) / 5.0
+            # ── Temporal decay ──
+            # Half-life ~365 days: movies watched a year ago get ~0.5× weight
+            decay = 1.0
+            watched = m.get("watchedDate") or m.get("addedAt")
+            if watched:
+                try:
+                    if isinstance(watched, str):
+                        wt = datetime.fromisoformat(watched.replace("Z", "+00:00")).timestamp()
+                    elif hasattr(watched, "timestamp"):
+                        wt = watched.timestamp()
+                    else:
+                        wt = now_ts
+                    age_days = max(0, (now_ts - wt) / 86400)
+                    decay = math.exp(-0.0019 * age_days)   # λ = ln2/365 ≈ 0.0019
+                except (ValueError, TypeError, OSError):
+                    decay = 1.0
 
-            # Genre scoring — weighted by how much the user liked it
-            for genre in (m.get("genres") or []):
-                self.genre_scores[genre] += weight
+            # ── Rating surprise ──
+            # If user rates 9 but IMDb says 6.5 → surprise = +2.5 → strong taste signal
+            ur = m.get("userRating") or 0
+            ir = m.get("imdbRating") or 0
+            surprise = max(0, ur - ir) if (ur and ir) else 0
+            base_weight = (ur or 5) / 5.0
+            weight = base_weight * decay * (1.0 + 0.3 * surprise)
 
-            # Decade scoring
+            # ── Genre scoring with IDF ──
+            genres = m.get("genres") or []
+            for g in genres:
+                self.genre_scores[g] += weight * _idf(g)
+
+            # ── Co-occurrence pairs ──
+            # Sorted pairs so (Crime, Drama) == (Drama, Crime)
+            if len(genres) >= 2:
+                sorted_g = sorted(genres)
+                for i in range(len(sorted_g)):
+                    for j in range(i + 1, len(sorted_g)):
+                        self.pair_scores[(sorted_g[i], sorted_g[j])] += weight
+
+            # ── Decade scoring ──
             year = m.get("startYear")
             if year:
                 decade = (year // 10) * 10
                 self.decade_scores[decade] += weight
                 years.append(year)
 
-            # Type scoring
-            mtype = m.get("type", "movie")
-            self.type_scores[mtype] += weight
+            # ── Type scoring ──
+            self.type_scores[m.get("type", "movie")] += weight
 
-            # Rating aggregation
-            ur = m.get("userRating")
+            # ── Rating collection ──
             if ur and ur > 0:
-                total_user_rating += ur
-                rated_count += 1
-
-            ir = m.get("imdbRating")
+                user_ratings.append(ur)
             if ir and ir > 0:
-                total_imdb_rating += ir
-                imdb_count += 1
+                imdb_ratings.append(ir)
 
-        if rated_count:
-            self.avg_user_rating = total_user_rating / rated_count
-        if imdb_count:
-            self.avg_imdb_rating = total_imdb_rating / imdb_count
+        # ── Aggregate stats ──
+        if user_ratings:
+            self.avg_user_rating = sum(user_ratings) / len(user_ratings)
+            if len(user_ratings) > 1:
+                mean = self.avg_user_rating
+                self.rating_std = math.sqrt(
+                    sum((r - mean) ** 2 for r in user_ratings) / (len(user_ratings) - 1)
+                )
+        if imdb_ratings:
+            self.avg_imdb_rating = sum(imdb_ratings) / len(imdb_ratings)
+
+        # ── Year range (10th percentile → max) ──
         if years:
-            # Preferred range: 10th percentile to max (leans toward what they watch most)
             years.sort()
             low_idx = max(0, len(years) // 10)
             self.preferred_year_range = (years[low_idx], years[-1])
 
+        # ── Genre entropy (Shannon) ──
+        # Low entropy = narrow taste → system should explore more
+        # High entropy = broad taste → safe to exploit
+        total = sum(self.genre_scores.values())
+        if total > 0:
+            probs = [v / total for v in self.genre_scores.values()]
+            self._genre_entropy = -sum(p * math.log2(p) for p in probs if p > 0)
+
+    # ── Properties ──
+
     @property
     def top_genres(self) -> list[str]:
-        """Top 3 genres by weighted score."""
+        """Top 3 genres by TF-IDF-weighted score."""
         return [g for g, _ in self.genre_scores.most_common(3)]
 
     @property
+    def top_pairs(self) -> list[tuple[str, str]]:
+        """Top 2 genre co-occurrence pairs."""
+        return [p for p, _ in self.pair_scores.most_common(2)]
+
+    @property
     def top_type(self) -> str:
-        """Most watched type (movie, tvSeries, etc.)."""
         if self.type_scores:
             return self.type_scores.most_common(1)[0][0]
         return "movie"
 
     @property
     def top_decades(self) -> list[int]:
-        """Top 2 decades."""
         return [d for d, _ in self.decade_scores.most_common(2)]
+
+    @property
+    def genre_entropy(self) -> float:
+        """Shannon entropy of genre distribution. Higher = broader taste."""
+        return self._genre_entropy
 
     @property
     def min_rating_threshold(self) -> float:
         """
-            Suggest a minimum IMDb rating based on the user's taste.
-            Users who rate high tend to prefer higher-rated films.
+            Bayesian-style threshold.
+            Blends the user's average with a prior of 6.5,
+            pulled toward the prior when we have few data points.
         """
-        if self.avg_user_rating >= 8:
-            return 7.0
-        elif self.avg_user_rating >= 6:
-            return 6.0
-        else:
-            return 5.0
+        prior = 6.5
+        k = 5  # strength of prior (equivalent to 5 "phantom" movies at 6.5)
+        n = len([m for m in self.movies if m.get("userRating")])
+        if n == 0:
+            return prior - 1.0  # lenient default
+        blended = (prior * k + self.avg_user_rating * n) / (k + n)
+        # Threshold = blended average minus one standard deviation (be generous)
+        return max(4.0, round(blended - max(self.rating_std, 0.5), 1))
+
+    @property
+    def suggested_strategy(self) -> str:
+        """
+            Auto-select strategy from genre entropy.
+            Narrow taste → explore.  Broad taste → similar.  Middle → balanced.
+        """
+        if self._genre_entropy < 2.0:
+            return "explore"
+        elif self._genre_entropy > 3.5:
+            return "similar"
+        return "balanced"
+
+    def genre_adjacency(self) -> dict[str, str]:
+        """
+            Learn adjacent genres from co-occurrence data instead of a hardcoded map.
+            For each top genre, find its strongest co-occurring partner
+            that ISN'T also a top genre → that's the "adjacent" genre for exploration.
+        """
+        top_set = set(self.top_genres)
+        adjacency = {}
+        for g in self.top_genres:
+            best, best_score = "Drama", 0  # fallback
+            for (a, b), score in self.pair_scores.most_common():
+                partner = b if a == g else (a if b == g else None)
+                if partner and partner not in top_set and score > best_score:
+                    best, best_score = partner, score
+            adjacency[g] = best
+        return adjacency
 
     def summary(self) -> dict:
-        """Human-readable summary of this profile."""
         return {
             "top_genres": self.top_genres,
+            "top_pairs": [list(p) for p in self.top_pairs],
             "top_type": self.top_type,
             "top_decades": self.top_decades,
             "avg_user_rating": round(self.avg_user_rating, 1),
             "avg_imdb_rating": round(self.avg_imdb_rating, 1),
+            "rating_std": round(self.rating_std, 2),
             "preferred_years": self.preferred_year_range,
             "min_rating_threshold": self.min_rating_threshold,
+            "genre_entropy": round(self._genre_entropy, 2),
+            "suggested_strategy": self.suggested_strategy,
             "movie_count": len(self.movies),
         }
 
@@ -169,6 +287,11 @@ class PreferenceProfile:
 # Recommendation Strategies
 # ──────────────────────────────────────────────
 
+def _norm_type(t: str) -> str:
+    """Normalize type string for the API."""
+    return t.upper().replace("TVSERIES", "TV_SERIES").replace("TVMINISERIES", "TV_MINI_SERIES")
+
+
 def _build_api_params(profile: PreferenceProfile, strategy: str = "balanced") -> list[dict]:
     """
         Builds a list of API query parameter sets from a profile.
@@ -179,16 +302,36 @@ def _build_api_params(profile: PreferenceProfile, strategy: str = "balanced") ->
             "balanced"   — mix of genre combos and year ranges
             "similar"    — tight match to existing taste
             "explore"    — push outside comfort zone slightly
+            "auto"       — let entropy decide
+        
+        Uses co-occurrence pairs for tighter genre combos,
+        and learned adjacency for exploration.
     """
+    if strategy == "auto":
+        strategy = profile.suggested_strategy
+
     queries = []
     genres = profile.top_genres
+    pairs = profile.top_pairs
     min_rating = profile.min_rating_threshold
+    adjacency = profile.genre_adjacency()
 
     if strategy == "similar":
-        # Tight match: top genres, same era, high rating
-        if genres:
+        # ── Tight match: best co-occurring pair, same era, high rating ──
+        if pairs:
             queries.append({
-                "types": profile.top_type.upper().replace("TVSERIES", "TV_SERIES").replace("TVMINISERIES", "TV_MINI_SERIES"),
+                "types": _norm_type(profile.top_type),
+                "genres": ",".join(pairs[0]),
+                "startYear": profile.preferred_year_range[0],
+                "endYear": profile.preferred_year_range[1],
+                "minAggregateRating": min_rating,
+                "minVoteCount": 5000,
+                "sortBy": "SORT_BY_USER_RATING",
+                "sortOrder": "DESC",
+            })
+        elif genres:
+            queries.append({
+                "types": _norm_type(profile.top_type),
                 "genres": ",".join(genres[:2]),
                 "startYear": profile.preferred_year_range[0],
                 "endYear": profile.preferred_year_range[1],
@@ -197,44 +340,63 @@ def _build_api_params(profile: PreferenceProfile, strategy: str = "balanced") ->
                 "sortBy": "SORT_BY_USER_RATING",
                 "sortOrder": "DESC",
             })
+        # Second query: the other pair or solo top genre in a different sort
+        if len(pairs) >= 2:
+            queries.append({
+                "genres": ",".join(pairs[1]),
+                "minAggregateRating": min_rating,
+                "minVoteCount": 5000,
+                "sortBy": "SORT_BY_POPULARITY",
+                "sortOrder": "DESC",
+            })
 
     elif strategy == "explore":
-        # Same genres but different era
+        # ── Learned adjacency instead of hardcoded map ──
+        if genres and adjacency:
+            # Adjacent genre in the user's era
+            adj = adjacency.get(genres[0], "Drama")
+            queries.append({
+                "genres": adj,
+                "startYear": profile.preferred_year_range[0],
+                "endYear": profile.preferred_year_range[1],
+                "minAggregateRating": min_rating,
+                "minVoteCount": 5000,
+                "sortBy": "SORT_BY_POPULARITY",
+                "sortOrder": "DESC",
+            })
         if genres:
-            # Earlier era
+            # Same top genre but a different era (earlier classics)
             queries.append({
                 "genres": genres[0],
-                "endYear": profile.preferred_year_range[0] - 1,
+                "endYear": max(1960, profile.preferred_year_range[0] - 1),
                 "minAggregateRating": max(min_rating, 7.0),
                 "minVoteCount": 10000,
                 "sortBy": "SORT_BY_USER_RATING",
                 "sortOrder": "DESC",
             })
-            # Different genre but same era
-            if len(genres) >= 2:
-                adjacent_genres = {
-                    "Action": "Thriller", "Thriller": "Mystery", "Comedy": "Romance",
-                    "Drama": "Biography", "Sci-Fi": "Fantasy", "Horror": "Mystery",
-                    "Romance": "Drama", "Adventure": "Fantasy", "Crime": "Thriller",
-                    "Animation": "Family", "Documentary": "Biography", "War": "History",
-                    "Fantasy": "Adventure", "Mystery": "Crime", "Biography": "History",
-                    "Music": "Musical", "Musical": "Music", "Western": "Adventure",
-                    "Family": "Animation", "History": "War", "Sport": "Drama",
-                }
-                adj = adjacent_genres.get(genres[0], "Drama")
+        # Third query: second-ranked pair flipped into explore territory
+        if len(genres) >= 2 and adjacency:
+            adj2 = adjacency.get(genres[1], "Drama")
+            if adj2 != adjacency.get(genres[0], ""):
                 queries.append({
-                    "genres": adj,
-                    "startYear": profile.preferred_year_range[0],
-                    "endYear": profile.preferred_year_range[1],
-                    "minAggregateRating": min_rating,
+                    "genres": f"{genres[1]},{adj2}",
+                    "minAggregateRating": max(min_rating, 6.5),
                     "minVoteCount": 5000,
-                    "sortBy": "SORT_BY_POPULARITY",
+                    "sortBy": "SORT_BY_USER_RATING",
                     "sortOrder": "DESC",
                 })
 
     else:  # balanced (default)
-        # Query 1: Primary genre combo, popularity sorted
-        if len(genres) >= 2:
+        # ── Query 1: Best co-occurring pair, popularity sorted ──
+        if pairs:
+            queries.append({
+                "genres": ",".join(pairs[0]),
+                "minAggregateRating": min_rating,
+                "minVoteCount": 5000,
+                "sortBy": "SORT_BY_POPULARITY",
+                "sortOrder": "DESC",
+            })
+        elif len(genres) >= 2:
             queries.append({
                 "genres": ",".join(genres[:2]),
                 "minAggregateRating": min_rating,
@@ -242,7 +404,8 @@ def _build_api_params(profile: PreferenceProfile, strategy: str = "balanced") ->
                 "sortBy": "SORT_BY_POPULARITY",
                 "sortOrder": "DESC",
             })
-        # Query 2: Third genre + high rating
+
+        # ── Query 2: Third genre (the "wild card"), high rating ──
         if len(genres) >= 3:
             queries.append({
                 "genres": genres[2],
@@ -251,7 +414,8 @@ def _build_api_params(profile: PreferenceProfile, strategy: str = "balanced") ->
                 "sortBy": "SORT_BY_USER_RATING",
                 "sortOrder": "DESC",
             })
-        # Query 3: Top genre + preferred decade
+
+        # ── Query 3: Top genre + preferred decade ──
         if genres and profile.top_decades:
             decade = profile.top_decades[0]
             queries.append({
@@ -264,7 +428,19 @@ def _build_api_params(profile: PreferenceProfile, strategy: str = "balanced") ->
                 "sortOrder": "DESC",
             })
 
-    # Fallback: if no queries were generated
+        # ── Query 4 (bonus): Adjacent genre for serendipity ──
+        if genres and adjacency and len(queries) < 4:
+            adj = adjacency.get(genres[0])
+            if adj:
+                queries.append({
+                    "genres": adj,
+                    "minAggregateRating": max(min_rating, 6.5),
+                    "minVoteCount": 10000,
+                    "sortBy": "SORT_BY_USER_RATING",
+                    "sortOrder": "DESC",
+                })
+
+    # Fallback
     if not queries:
         queries.append({
             "minAggregateRating": 7.0,
@@ -282,53 +458,118 @@ def _build_api_params(profile: PreferenceProfile, strategy: str = "balanced") ->
 
 def _score_title(title: dict, profile: PreferenceProfile, owned_ids: set) -> float:
     """
-        Scores a title (0.0 - 1.0) based on how well it matches the profile.
-        Returns -1 if the title should be excluded (already owned, etc.)
+        Scores a title (0.0 - 1.0) based on profile match.
+        Returns -1 if excluded (already owned).
+        
+        Scoring breakdown:
+          0.35  Genre overlap (TF-IDF weighted, includes pair bonus)
+          0.20  IMDb rating quality
+          0.15  Year proximity (Gaussian kernel, not linear)
+          0.10  Type match
+          0.10  Vote credibility (log-scale, smooth)
+          0.10  Co-occurrence pair bonus
     """
     tid = title.get("id", "")
     if tid in owned_ids:
         return -1.0
 
     score = 0.0
-
-    # Genre overlap (0 - 0.4)
     title_genres = set(title.get("genres") or [])
-    profile_genres = set(profile.top_genres)
-    if profile_genres:
-        overlap = len(title_genres & profile_genres) / len(profile_genres)
-        score += overlap * 0.4
 
-    # IMDb rating bonus (0 - 0.2) — reduced from 0.25
-    rating = title.get("rating", {}).get("aggregateRating", 0) if isinstance(title.get("rating"), dict) else 0
+    # ── Genre overlap with IDF weighting (0 – 0.35) ──
+    if profile.genre_scores:
+        # Weighted overlap: how much IDF-weight does the candidate share?
+        profile_total = sum(profile.genre_scores[g] for g in profile.top_genres) or 1
+        overlap_weight = sum(profile.genre_scores.get(g, 0) for g in title_genres)
+        score += min(overlap_weight / profile_total, 1.0) * 0.35
+
+    # ── Co-occurrence pair bonus (0 – 0.10) ──
+    if profile.pair_scores:
+        pair_total = sum(v for _, v in profile.pair_scores.most_common(3)) or 1
+        pair_hit = 0
+        sorted_tg = sorted(title_genres)
+        for i in range(len(sorted_tg)):
+            for j in range(i + 1, len(sorted_tg)):
+                pair_hit += profile.pair_scores.get((sorted_tg[i], sorted_tg[j]), 0)
+        score += min(pair_hit / pair_total, 1.0) * 0.10
+
+    # ── IMDb rating quality (0 – 0.20) ──
+    rating = (
+        title.get("rating", {}).get("aggregateRating", 0)
+        if isinstance(title.get("rating"), dict) else 0
+    )
     if rating:
-        score += min(rating / 10.0, 1.0) * 0.2
+        # Sigmoid-ish curve: ratings below 5 contribute almost nothing,
+        # ratings above 8 get near-full credit
+        score += (1 / (1 + math.exp(-1.5 * (rating - 6.5)))) * 0.20
 
-    # Year proximity (0 - 0.15)
+    # ── Year proximity with Gaussian kernel (0 – 0.15) ──
     year = title.get("startYear", 0)
     if year and profile.preferred_year_range:
         low, high = profile.preferred_year_range
         mid = (low + high) / 2
-        dist = abs(year - mid)
-        proximity = max(0, 1 - dist / 50)  # within 50 years = some score
+        sigma = max((high - low) / 2, 10)  # adaptive spread
+        proximity = math.exp(-0.5 * ((year - mid) / sigma) ** 2)
         score += proximity * 0.15
 
-    # Type match (0 - 0.1)
-    if title.get("type", "").lower().replace(" ", "") == profile.top_type.lower().replace(" ", ""):
-        score += 0.1
+    # ── Type match (0 – 0.10) ──
+    title_type = (title.get("type") or "").lower().replace(" ", "")
+    if title_type == profile.top_type.lower().replace(" ", ""):
+        score += 0.10
 
-    # Vote count credibility bonus (0 - 0.15) — increased from 0.1
-    votes = title.get("rating", {}).get("voteCount", 0) if isinstance(title.get("rating"), dict) else 0
-    if votes > 100000:
-        score += 0.15
-    elif votes > 50000:
-        score += 0.12
-    elif votes > 10000:
-        score += 0.08
-    elif votes > 1000:
-        score += 0.03
-    # else: no bonus for <1000 votes
+    # ── Vote credibility — log scale (0 – 0.10) ──
+    votes = (
+        title.get("rating", {}).get("voteCount", 0)
+        if isinstance(title.get("rating"), dict) else 0
+    )
+    if votes > 0:
+        # log10(1000)=3, log10(100000)=5, log10(1M)=6. Normalize to [0, 1].
+        score += min(math.log10(votes) / 6.0, 1.0) * 0.10
 
-    return round(score, 3)
+    return round(score, 4)
+
+
+def _mmr_rerank(scored: list[dict], n: int, lam: float = 0.7) -> list[dict]:
+    """
+        Maximal Marginal Relevance re-ranking.
+        
+        Balances relevance (rec_score) with diversity (genre dissimilarity
+        to already-selected items). λ=1 → pure relevance, λ=0 → pure diversity.
+        
+        This is O(n·k) where k = items to select — trivial for n≤50.
+    """
+    if len(scored) <= n:
+        return scored
+
+    selected = []
+    remaining = list(scored)
+
+    # Pick the best one first
+    remaining.sort(key=lambda t: t["rec_score"], reverse=True)
+    selected.append(remaining.pop(0))
+
+    while len(selected) < n and remaining:
+        best_idx, best_mmr = -1, -float("inf")
+        sel_genres = [set(t.get("genres") or []) for t in selected]
+
+        for i, cand in enumerate(remaining):
+            relevance = cand["rec_score"]
+
+            # Max similarity to any already-selected item (Jaccard)
+            cand_genres = set(cand.get("genres") or [])
+            max_sim = 0
+            for sg in sel_genres:
+                union = len(cand_genres | sg) or 1
+                max_sim = max(max_sim, len(cand_genres & sg) / union)
+
+            mmr = lam * relevance - (1 - lam) * max_sim
+            if mmr > best_mmr:
+                best_mmr = mmr
+                best_idx = i
+
+        selected.append(remaining.pop(best_idx))
+
+    return selected
 
 
 # ──────────────────────────────────────────────
@@ -352,19 +593,15 @@ class Recommender:
         self.owned_ids = set(user_movies.keys())
 
     def _movies_in_list(self, list_id: str) -> list[dict]:
-        """Get all movies belonging to a specific list."""
         return [
             m for m in self.user_movies.values()
             if list_id in (m.get("lists") or [])
         ]
 
     def profile_for_list(self, list_id: str) -> PreferenceProfile:
-        """Build a preference profile from a specific list's movies."""
-        movies = self._movies_in_list(list_id)
-        return PreferenceProfile(movies)
+        return PreferenceProfile(self._movies_in_list(list_id))
 
     def profile_general(self) -> PreferenceProfile:
-        """Build a preference profile from the entire collection."""
         return PreferenceProfile(list(self.user_movies.values()))
 
     def recommend_for_list(self, list_id: str, n: int = 10, strategy: str = "balanced") -> dict:
@@ -466,7 +703,7 @@ class Recommender:
         """
             All-in-one: generate recommendations AND fetch from API.
             
-            Returns a scored, deduplicated, sorted list of title dicts.
+            Returns a scored, deduplicated, MMR-diversified list of title dicts.
             Each title gets an extra 'rec_score' and 'rec_reason' field.
         """
         if list_id:
@@ -495,7 +732,7 @@ class Recommender:
                 print(f"Fetch failed: {e}")
                 continue
 
-        # Score and sort
+        # Score
         scored = []
         for title in all_titles.values():
             s = _score_title(title, profile, self.owned_ids)
@@ -504,8 +741,11 @@ class Recommender:
                 title["rec_reason"] = rec["reason"]
                 scored.append(title)
 
+        # MMR-diversified re-ranking
         scored.sort(key=lambda t: t["rec_score"], reverse=True)
-        return scored[:n]
+        diversified = _mmr_rerank(scored, n)
+
+        return diversified[:n]
 
 
 # ──────────────────────────────────────────────
@@ -513,7 +753,6 @@ class Recommender:
 # ──────────────────────────────────────────────
 
 if __name__ == "__main__":
-    # Example usage with dummy data
     user_movies = {
         "tt0111161": {
             "titleId": "tt0111161",
